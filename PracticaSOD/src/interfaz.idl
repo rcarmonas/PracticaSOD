@@ -1,0 +1,4 @@
+module SistAtSeg {
+	interface Atacante{};
+	interface Controlador{};
+};
