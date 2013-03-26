@@ -1,14 +1,16 @@
 module clases {
 	interface Controlador
 	{
-		bool isReady();
-		bool isFinished();
 		int synchronized unirse(int nhilos);
 		string getTrabajo();
 		void finTrabajo(string trabajo);
-		hashtable con id->nhilos
 	};
 	interface Atacante{
-	
+		boolean ready;
+		boolean finished;
+		String atacar(String usuario,int maxLen);
+		String atacarMD5(int inicio,int fin, String md5, int longitud);
+		String atacarSHA(int inicio,int fin, String md5, int longitud);
+		String getSiguienteCombinacion(String combinacion)
 	}
 };
