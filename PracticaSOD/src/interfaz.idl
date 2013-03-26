@@ -1,4 +1,14 @@
-module SistAtSeg {
-	interface Atacante{};
-	interface Controlador{};
+module clases {
+	interface Controlador
+	{
+		bool isReady();
+		bool isFinished();
+		int synchronized unirse(int nhilos);
+		string getTrabajo();
+		void finTrabajo(string trabajo);
+		hashtable con id->nhilos
+	};
+	interface Atacante{
+	
+	}
 };
