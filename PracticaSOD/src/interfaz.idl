@@ -23,5 +23,4 @@ module clases {
 		boolean crearSHA(in string cadena, in unsigned long tam_maximo);
 		boolean crearRed(in string cadena, in unsigned long puerto, in string usuario, in unsigned long tam_maximo);
 	};
-	
 };
