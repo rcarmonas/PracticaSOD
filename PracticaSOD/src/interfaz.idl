@@ -1,16 +1,27 @@
 module clases {
+	struct Trabajo
+	{
+		unsigned long id;
+		unsigned long tipo;
+		string cadena;
+		unsigned long puerto;
+		string usuario;
+		unsigned long tam_maximo;
+		unsigned long progress;
+	};
+	struct Division
+	{
+		Trabajo trabajo;
+		char c;
+	};
 	interface Controlador
 	{
-		int synchronized unirse(int nhilos);
-		string getTrabajo();
-		void finTrabajo(string trabajo);
+		void finTrabajo(in unsigned long id, in string trabajo);
+		Division getTrabajo();
+		boolean setTrabajo(in Division t);
+		boolean crearMD5(in string cadena, in unsigned long tam_maximo);
+		boolean crearSHA(in string cadena, in unsigned long tam_maximo);
+		boolean crearRed(in string cadena, in unsigned long puerto, in string usuario, in unsigned long tam_maximo);
 	};
-	interface Atacante{
-		boolean ready;
-		boolean finished;
-		void atacar(String usuario,int maxLen);
-		void atacarMD5(int inicio,int fin, String md5, int longitud);
-		void atacarSHA(int inicio,int fin, String md5, int longitud);
-		string getSiguienteCombinacion(String combinacion)
-	}
+	
 };

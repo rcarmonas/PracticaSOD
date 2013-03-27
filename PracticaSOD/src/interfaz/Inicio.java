@@ -15,8 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import clases.Atacante;
-
 public class Inicio {
 
 	private JFrame frmSistemaDistribudoDe;
@@ -136,12 +134,12 @@ public class Inicio {
 				else
 				{
 					try{
-						Atacante a=new Atacante(textField.getText(),Integer.parseInt(textField_1.getText()));
-						String clave=a.atacar(textField_3.getText(),Integer.parseInt(textField_2.getText()));
-						if(clave!=null)
-							JOptionPane.showMessageDialog(null, "Clave encontrada: "+clave);
-						else
-							JOptionPane.showMessageDialog(null, "No se ha encontrado la clave");
+						//Atacante a=new Atacante(textField.getText(),Integer.parseInt(textField_1.getText()));
+						//String clave=a.atacar(textField_3.getText(),Integer.parseInt(textField_2.getText()));
+						//if(clave!=null)
+						//	JOptionPane.showMessageDialog(null, "Clave encontrada: "+clave);
+						//else
+						//	JOptionPane.showMessageDialog(null, "No se ha encontrado la clave");
 					}catch(NumberFormatException t){
 						JOptionPane.showMessageDialog(null, "Formato incorrecto");
 					}
