@@ -8,9 +8,9 @@ module clases {
 	interface Atacante{
 		boolean ready;
 		boolean finished;
-		String atacar(String usuario,int maxLen);
-		String atacarMD5(int inicio,int fin, String md5, int longitud);
-		String atacarSHA(int inicio,int fin, String md5, int longitud);
-		String getSiguienteCombinacion(String combinacion)
+		void atacar(String usuario,int maxLen);
+		void atacarMD5(int inicio,int fin, String md5, int longitud);
+		void atacarSHA(int inicio,int fin, String md5, int longitud);
+		string getSiguienteCombinacion(String combinacion)
 	}
 };
