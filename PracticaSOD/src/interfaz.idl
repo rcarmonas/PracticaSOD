@@ -1,16 +1,6 @@
 module clases {
 	interface Controlador
 	{
-		int synchronized unirse(int nhilos);
-		string getTrabajo();
-		void finTrabajo(string trabajo);
+		attribute Integer a;
 	};
-	interface Atacante{
-		boolean ready;
-		boolean finished;
-		void atacar(String usuario,int maxLen);
-		void atacarMD5(int inicio,int fin, String md5, int longitud);
-		void atacarSHA(int inicio,int fin, String md5, int longitud);
-		string getSiguienteCombinacion(String combinacion)
-	}
 };
