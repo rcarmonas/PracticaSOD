@@ -1,6 +1,6 @@
 package interfaz;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -69,7 +69,7 @@ public class Inicio {
 		JMenuBar menuBar = new JMenuBar();
 		frmSistemaDistribudoDe.setJMenuBar(menuBar);
 		
-		JMenu mnControlador = new JMenu("Controlador");
+		JMenu mnControlador = new JMenu("Cliente");
 		menuBar.add(mnControlador);
 		frmSistemaDistribudoDe.getContentPane().setLayout(new CardLayout(0, 0));
 		
@@ -85,19 +85,19 @@ public class Inicio {
 		
 		JLabel lblBienvenido = new JLabel("Bienvenido");
 		lblBienvenido.setFont(new Font("Dialog", Font.BOLD, 20));
-		lblBienvenido.setBounds(230, 87, 139, 63);
+		lblBienvenido.setBounds(394, 193, 139, 63);
 		Bienvenida.add(lblBienvenido);
 		
 		//panel del controlador
 		JPanel Controlador = new JPanel();
 		panel.add(Controlador, "name_7992336414471");
 		Controlador.setLayout(null);
-		JLabel lblControladorIniciado = new JLabel("Controlador iniciado");
-		lblControladorIniciado.setBounds(195, 49, 156, 51);
+		JLabel lblControladorIniciado = new JLabel("Unido");
+		lblControladorIniciado.setBounds(426, 157, 52, 23);
 		Controlador.add(lblControladorIniciado);
 		
-		JButton btnParar = new JButton("Parar");
-		btnParar.setBounds(211, 132, 124, 30);
+		JButton btnParar = new JButton("Salir");
+		btnParar.setBounds(390, 224, 124, 30);
 		btnParar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CardLayout cl = (CardLayout)(panel.getLayout());
@@ -111,21 +111,21 @@ public class Inicio {
 		NuevoAtaque.setLayout(null);
 		
 		JLabel lblLongitudMximaDe = new JLabel("Longitud máxima de la clave");
-		lblLongitudMximaDe.setBounds(215, 251, 199, 15);
+		lblLongitudMximaDe.setBounds(293, 250, 199, 15);
 		NuevoAtaque.add(lblLongitudMximaDe);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(422, 249, 37, 19);
+		textField_2.setBounds(500, 248, 37, 19);
 		NuevoAtaque.add(textField_2);
 		textField_2.setColumns(3);
 		
 		JLabel lblNuevoAtaque = new JLabel("Nuevo Ataque");
 		lblNuevoAtaque.setFont(new Font("Dialog", Font.BOLD, 17));
-		lblNuevoAtaque.setBounds(311, 64, 148, 27);
+		lblNuevoAtaque.setBounds(389, 50, 148, 27);
 		NuevoAtaque.add(lblNuevoAtaque);
 		
 		final JPanel Cambiar = new JPanel();
-		Cambiar.setBounds(182, 152, 361, 56);
+		Cambiar.setBounds(260, 151, 361, 56);
 		NuevoAtaque.add(Cambiar);
 		Cambiar.setLayout(new CardLayout(0, 0));
 		
@@ -183,11 +183,11 @@ public class Inicio {
 			}
 		});
 		comboBox.setModel(new DefaultComboBoxModel<Object>(new String[] {"Red", "MD5", "SHA"}));
-		comboBox.setBounds(245, 103, 70, 24);
+		comboBox.setBounds(323, 102, 70, 24);
 		NuevoAtaque.add(comboBox);
 		
 		JButton btnIniciarAtaque = new JButton("Añadir ataque");
-		btnIniciarAtaque.setBounds(349, 304, 132, 25);
+		btnIniciarAtaque.setBounds(389, 306, 158, 25);
 		btnIniciarAtaque.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
@@ -202,13 +202,13 @@ public class Inicio {
 		NuevoAtaque.add(btnIniciarAtaque);
 		
 		JLabel lblTipo = new JLabel("Tipo");
-		lblTipo.setBounds(201, 108, 45, 15);
+		lblTipo.setBounds(279, 107, 45, 15);
 		NuevoAtaque.add(lblTipo);
 		
 		JPanel VerAtaques = new JPanel();
 		panel.add(VerAtaques, "name_3410875170670");
 		
-		JMenuItem mntmIniciarControlador = new JMenuItem("Iniciar controlador");
+		JMenuItem mntmIniciarControlador = new JMenuItem("Unirse");
 		mntmIniciarControlador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CardLayout cl = (CardLayout)(panel.getLayout());
@@ -217,7 +217,7 @@ public class Inicio {
 		});
 		mnControlador.add(mntmIniciarControlador);
 		
-		JMenu mnCliente = new JMenu("Cliente");
+		JMenu mnCliente = new JMenu("Ataques");
 		menuBar.add(mnCliente);
 		
 		JMenuItem mntmAtacar = new JMenuItem("Nuevo Ataque");
@@ -252,25 +252,21 @@ public class Inicio {
 		jtTabla = new JTable(dtmModelo);
 		
 		//Defino el ancho de las columnas
-		TableColumn tcColumna = jtTabla.getColumn("Dirección");
-		tcColumna.setPreferredWidth(100);
-		tcColumna=jtTabla.getColumn("Tipo");
-		tcColumna.setPreferredWidth(20);
-		tcColumna=jtTabla.getColumn("Puerto");
-		tcColumna.setPreferredWidth(40);
-		tcColumna=jtTabla.getColumn("Usuario");
-		tcColumna.setPreferredWidth(100);
+		TableColumn tcColumna;
 		tcColumna=jtTabla.getColumn("Cadena");
-		tcColumna.setPreferredWidth(200);
-		tcColumna=jtTabla.getColumn("Longitud");
+		tcColumna.setPreferredWidth(300);
+		tcColumna=jtTabla.getColumn("Tipo");
 		tcColumna.setPreferredWidth(40);
+		tcColumna=jtTabla.getColumn("Puerto");
+		tcColumna.setPreferredWidth(70);
+		tcColumna=jtTabla.getColumn("Longitud");
+		tcColumna.setPreferredWidth(60);
 		
 		//creo panel con barra de desplazamiento que contiene a table
 		JScrollPane jspScrollpane = new JScrollPane(jtTabla);
-		Dimension d = jtTabla.getPreferredSize();
-		jspScrollpane.setPreferredSize(new Dimension(d.width,jtTabla.getRowHeight()*20+1));
+		VerAtaques.setLayout(new BorderLayout(0, 0));
 		//añado el panel a la ventana
-		VerAtaques.add(jspScrollpane);
+		VerAtaques.add(jspScrollpane,BorderLayout.CENTER);
 		
 		JButton btnBorrarSelecciondos = new JButton("Borrar Selecciondos");
 		btnBorrarSelecciondos.addActionListener(new ActionListener() {
@@ -281,6 +277,6 @@ public class Inicio {
 					dtmModelo.removeRow(aiSeleccionadas[i]);
 			}
 		});
-		VerAtaques.add(btnBorrarSelecciondos);
+		VerAtaques.add(btnBorrarSelecciondos, BorderLayout.SOUTH);
 	}
 }
