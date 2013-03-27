@@ -265,7 +265,7 @@ public class Inicio {
 		tcColumna=jtTabla.getColumn("Longitud");
 		tcColumna.setPreferredWidth(40);
 		
-		//creo un panel con barra de desplazamiento que contiene a table
+		//creo panel con barra de desplazamiento que contiene a table
 		JScrollPane jspScrollpane = new JScrollPane(jtTabla);
 		Dimension d = jtTabla.getPreferredSize();
 		jspScrollpane.setPreferredSize(new Dimension(d.width,jtTabla.getRowHeight()*20+1));
