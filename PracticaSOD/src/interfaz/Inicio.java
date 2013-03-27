@@ -23,7 +23,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 public class Inicio {
-
 	private JFrame frmSistemaDistribudoDe;
 	private JTextField textField_2;
 	private JTextField textField;
