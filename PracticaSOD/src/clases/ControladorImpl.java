@@ -13,9 +13,9 @@ public class ControladorImpl implements ControladorOperations{
 	
 
 	@Override
-	public void finTrabajo(int id, String trabajo) 
+	public void finTrabajo(int id, String clave) 
 	{
-		if(trabajo!=null)//Acabado!
+		if(clave!=null)//Acabado!
 		{
 			trabajos.get(id).progress = MAX_PROGRESS;
 			//Procesar contraseña obtenida
@@ -49,10 +49,11 @@ public class ControladorImpl implements ControladorOperations{
 			return false;
 		}
 	}
-	private void dividirTrabajo(int id) throws InterruptedException
+	private void dividirTrabajo(Trabajo t) throws InterruptedException
 	{
+		//inserta las divisiones
 		for(int i=StrManager.INICIO; i<=StrManager.FIN; i++)
-			queue.put(new Division(trabajos.get(id), (char)i));
+			setTrabajo(new Division(t, (char)i));
 	}
 	@Override
 	public boolean crearMD5(String cadena, int tam_maximo) {
@@ -67,7 +68,7 @@ public class ControladorImpl implements ControladorOperations{
 		aux.cadena = cadena;
 		trabajos.add(aux);
 		try {
-			dividirTrabajo(id);
+			dividirTrabajo(aux);
 			return true;
 		} catch (InterruptedException e) {
 			return false;
@@ -87,7 +88,7 @@ public class ControladorImpl implements ControladorOperations{
 		aux.cadena = cadena;
 		trabajos.add(aux);
 		try {
-			dividirTrabajo(id);
+			dividirTrabajo(aux);
 			return true;
 		} catch (InterruptedException e) {
 			return false;
@@ -108,7 +109,7 @@ public class ControladorImpl implements ControladorOperations{
 		aux.cadena = cadena;
 		trabajos.add(aux);
 		try {
-			dividirTrabajo(id);
+			dividirTrabajo(aux);
 			return true;
 		} catch (InterruptedException e) {
 			return false;

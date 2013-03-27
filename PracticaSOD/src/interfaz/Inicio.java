@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 public class Inicio {
-	private JFrame frmSistemaDistribudoDe;
+	private JFrame ventana;
 	private JTextField textField_2;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -31,6 +31,7 @@ public class Inicio {
 	private DefaultTableModel dtmModelo;
 	private JTable jtTabla;
 	private JTextField textField_4;
+	private JPanel panel;
 
 	/**
 	 * Launch the application.
@@ -40,7 +41,7 @@ public class Inicio {
 			public void run() {
 				try {
 					Inicio window = new Inicio();
-					window.frmSistemaDistribudoDe.setVisible(true);
+					window.ventana.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -59,24 +60,24 @@ public class Inicio {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmSistemaDistribudoDe = new JFrame();
-		frmSistemaDistribudoDe.setResizable(false);
-		frmSistemaDistribudoDe.setTitle("Sistema distribuído de ataques a la seguridad");
-		frmSistemaDistribudoDe.setBounds(100, 100, 926, 575);
-		frmSistemaDistribudoDe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		/**
+		 * CREACION DE LA VENTANA
+		 */
 		
-		//barra de menus
-		JMenuBar menuBar = new JMenuBar();
-		frmSistemaDistribudoDe.setJMenuBar(menuBar);
+		ventana = new JFrame();
+		ventana.setResizable(false);
+		ventana.setTitle("Sistema distribuído de ataques a la seguridad");
+		ventana.setBounds(100, 100, 926, 575);
+		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JMenu mnControlador = new JMenu("Cliente");
-		menuBar.add(mnControlador);
-		frmSistemaDistribudoDe.getContentPane().setLayout(new CardLayout(0, 0));
+		/**
+		 * CREACION DE PANELES
+		 */
 		
 		//panel principal
-		final JPanel panel = new JPanel();
-		frmSistemaDistribudoDe.getContentPane().add(panel, "name_7972469409594");
-		panel.setLayout(new CardLayout(0, 0));
+		panel = new JPanel();
+		ventana.getContentPane().add(panel);
+		panel.setLayout(new CardLayout(0, 0));		
 		
 		//panel de bienvenida
 		JPanel Bienvenida = new JPanel();
@@ -106,6 +107,7 @@ public class Inicio {
 		});
 		Controlador.add(btnParar);
 		
+		//panel de nuevo ataque
 		JPanel NuevoAtaque = new JPanel();
 		panel.add(NuevoAtaque, "name_5999225250373");
 		NuevoAtaque.setLayout(null);
@@ -124,45 +126,51 @@ public class Inicio {
 		lblNuevoAtaque.setBounds(389, 50, 148, 27);
 		NuevoAtaque.add(lblNuevoAtaque);
 		
-		final JPanel Cambiar = new JPanel();
-		Cambiar.setBounds(260, 151, 361, 56);
-		NuevoAtaque.add(Cambiar);
-		Cambiar.setLayout(new CardLayout(0, 0));
+			//subpanel nuevo ataque
+			final JPanel Cambiar = new JPanel();
+			Cambiar.setBounds(260, 151, 361, 56);
+			NuevoAtaque.add(Cambiar);
+			Cambiar.setLayout(new CardLayout(0, 0));
+			
+			JPanel Red = new JPanel();
+			Cambiar.add(Red, "name_3509705215789");
+			
+			JLabel label_5 = new JLabel("Dirección");
+			Red.add(label_5);
+			
+			textField = new JTextField();
+			textField.setColumns(10);
+			Red.add(textField);
+			
+			JLabel label_6 = new JLabel("Puerto");
+			Red.add(label_6);
+			
+			textField_1 = new JTextField();
+			textField_1.setColumns(5);
+			Red.add(textField_1);
+			
+			JLabel label_7 = new JLabel("Usuario");
+			Red.add(label_7);
+			
+			textField_3 = new JTextField();
+			textField_3.setColumns(10);
+			Red.add(textField_3);
+			
+			JPanel MD5 = new JPanel();
+			Cambiar.add(MD5, "name_3509728720973");
+			
+			JLabel lblCadena = new JLabel("Cadena");
+			MD5.add(lblCadena);
+			
+			textField_4 = new JTextField();
+			MD5.add(textField_4);
+			textField_4.setColumns(20);
 		
-		JPanel Red = new JPanel();
-		Cambiar.add(Red, "name_3509705215789");
-		
-		JLabel label_5 = new JLabel("Dirección");
-		Red.add(label_5);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		Red.add(textField);
-		
-		JLabel label_6 = new JLabel("Puerto");
-		Red.add(label_6);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(5);
-		Red.add(textField_1);
-		
-		JLabel label_7 = new JLabel("Usuario");
-		Red.add(label_7);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		Red.add(textField_3);
-		
-		JPanel MD5 = new JPanel();
-		Cambiar.add(MD5, "name_3509728720973");
-		
-		JLabel lblCadena = new JLabel("Cadena");
-		MD5.add(lblCadena);
-		
-		textField_4 = new JTextField();
-		MD5.add(textField_4);
-		textField_4.setColumns(20);
-		
+			
+		JLabel lblTipo = new JLabel("Tipo");
+		lblTipo.setBounds(279, 107, 45, 15);
+		NuevoAtaque.add(lblTipo);
+
 		final JComboBox<Object> comboBox = new JComboBox<Object>();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -201,12 +209,59 @@ public class Inicio {
 		
 		NuevoAtaque.add(btnIniciarAtaque);
 		
-		JLabel lblTipo = new JLabel("Tipo");
-		lblTipo.setBounds(279, 107, 45, 15);
-		NuevoAtaque.add(lblTipo);
-		
+		//panel ver ataques
 		JPanel VerAtaques = new JPanel();
+		VerAtaques.setLayout(new BorderLayout(0, 0));
 		panel.add(VerAtaques, "name_3410875170670");
+		
+		//creacion de la tabla
+		//defino un modelo de tabla con las columnas necesarias
+		dtmModelo = new DefaultTableModel();
+		dtmModelo.addColumn("Tipo");
+		dtmModelo.addColumn("Dirección");
+		dtmModelo.addColumn("Puerto");
+		dtmModelo.addColumn("Usuario");
+		dtmModelo.addColumn("Cadena");
+		dtmModelo.addColumn("Longitud");
+		
+		//reservo la tabla
+		jtTabla = new JTable(dtmModelo);
+		
+		//Defino el ancho de las columnas
+		TableColumn tcColumna;
+		tcColumna=jtTabla.getColumn("Cadena");
+		tcColumna.setPreferredWidth(300);
+		tcColumna=jtTabla.getColumn("Tipo");
+		tcColumna.setPreferredWidth(40);
+		tcColumna=jtTabla.getColumn("Puerto");
+		tcColumna.setPreferredWidth(70);
+		tcColumna=jtTabla.getColumn("Longitud");
+		tcColumna.setPreferredWidth(60);
+		
+		//creo panel con barra de desplazamiento que contiene a table
+		JScrollPane jspScrollpane = new JScrollPane(jtTabla);
+		//añado el panel a la ventana
+		VerAtaques.add(jspScrollpane,BorderLayout.CENTER);
+		
+		JButton btnBorrarSelecciondos = new JButton("Borrar Selecciondos");
+		btnBorrarSelecciondos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int [] aiSeleccionadas=jtTabla.getSelectedRows();
+				int iLongitud=aiSeleccionadas.length;
+				for(int i=iLongitud-1;i>=0;i--)
+					dtmModelo.removeRow(aiSeleccionadas[i]);
+			}
+		});
+		VerAtaques.add(btnBorrarSelecciondos, BorderLayout.SOUTH);
+		
+		/**
+		 * BARRA DE MENUS
+		 */
+		JMenuBar menuBar = new JMenuBar();
+		ventana.setJMenuBar(menuBar);
+		
+		JMenu mnControlador = new JMenu("Cliente");
+		menuBar.add(mnControlador);
 		
 		JMenuItem mntmIniciarControlador = new JMenuItem("Unirse");
 		mntmIniciarControlador.addActionListener(new ActionListener() {
@@ -237,46 +292,5 @@ public class Inicio {
 			}
 		});
 		mnCliente.add(mntmNewMenuItem);
-		
-		//creacion de la tabla
-		//defino un modelo de tabla con las columnas necesarias
-		dtmModelo = new DefaultTableModel();
-		dtmModelo.addColumn("Tipo");
-		dtmModelo.addColumn("Dirección");
-		dtmModelo.addColumn("Puerto");
-		dtmModelo.addColumn("Usuario");
-		dtmModelo.addColumn("Cadena");
-		dtmModelo.addColumn("Longitud");
-		
-		//reservo la tabla
-		jtTabla = new JTable(dtmModelo);
-		
-		//Defino el ancho de las columnas
-		TableColumn tcColumna;
-		tcColumna=jtTabla.getColumn("Cadena");
-		tcColumna.setPreferredWidth(300);
-		tcColumna=jtTabla.getColumn("Tipo");
-		tcColumna.setPreferredWidth(40);
-		tcColumna=jtTabla.getColumn("Puerto");
-		tcColumna.setPreferredWidth(70);
-		tcColumna=jtTabla.getColumn("Longitud");
-		tcColumna.setPreferredWidth(60);
-		
-		//creo panel con barra de desplazamiento que contiene a table
-		JScrollPane jspScrollpane = new JScrollPane(jtTabla);
-		VerAtaques.setLayout(new BorderLayout(0, 0));
-		//añado el panel a la ventana
-		VerAtaques.add(jspScrollpane,BorderLayout.CENTER);
-		
-		JButton btnBorrarSelecciondos = new JButton("Borrar Selecciondos");
-		btnBorrarSelecciondos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int [] aiSeleccionadas=jtTabla.getSelectedRows();
-				int iLongitud=aiSeleccionadas.length;
-				for(int i=iLongitud-1;i>=0;i--)
-					dtmModelo.removeRow(aiSeleccionadas[i]);
-			}
-		});
-		VerAtaques.add(btnBorrarSelecciondos, BorderLayout.SOUTH);
 	}
 }
