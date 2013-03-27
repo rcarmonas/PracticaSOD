@@ -12,7 +12,7 @@ public class StrManager {
 	public static String getNext(String actual)
 	{
 		StringBuffer aux = new StringBuffer();
-		boolean continuar=true;
+		boolean continuar=true; //Continua procesando caracteres o no
 		for(int i=actual.length()-1; i>=0; i--)
 		{
 			char cAux = actual.charAt(i);
