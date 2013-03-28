@@ -10,11 +10,50 @@ package clases;
 
 public interface ControladorOperations 
 {
+	/**
+	* Indica el final de un trabajo por parte de un atacante
+	* @param id Id del trabajo finalizado
+	* @param clave Resultado o null si no se ha encontrado uno
+	*/
   void finTrabajo (int id, String clave);
+  /**
+  *
+  * @return El trabajo que debe realizar un hilo atacante
+  */
   clases.Division getDivision ();
+  /**
+  * Añade una división a la lista
+  * @param t Division a añadir
+  * @return true en caso de exito y false en caso de fallo
+  */
   boolean setDivision (clases.Division t);
+  /**
+  * Divide un trabajo e inserta las divisiones en la cola
+  * @param t Trabajo a dividir
+  * @return true en caso de exito y false en caso de fallo
+  */
   void dividirTrabajo (clases.Trabajo t);
+  /**
+  * Crea un trabajo MD5
+  * @param cadena Cadena MD5 a resolver
+  * @param tam_maximo Tamaño maximo de la contraseña a buscar
+  * @return true en caso de exito y false en caso de fallo
+  */
   boolean crearMD5 (String cadena, int tam_maximo);
+  /**
+  * Crea un trabajo SHA1
+  * @param cadena Cadena SHA1 a resolver
+  * @param tam_maximo Tamaño maximo de la contraseña a buscar
+  * @return true en caso de exito y false en caso de fallo
+  */
   boolean crearSHA (String cadena, int tam_maximo);
+  /**
+  * Crea un trabajo de ataque a servidor
+  * @param cadena Dirección del servidor a atacar
+  * @param tam_maximo Tamaño maximo de la contraseña a buscar
+  * @param usuario Usuario con el que se atacará el servidor
+  * @param puerto Puerto a atacar
+  * @return true en caso de exito y false en caso de fallo
+  */
   boolean crearRed (String cadena, int puerto, String usuario, int tam_maximo);
 } // interface ControladorOperations
