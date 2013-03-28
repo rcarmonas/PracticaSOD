@@ -10,7 +10,11 @@ package clases;
 
 public final class Division implements org.omg.CORBA.portable.IDLEntity
 {
-  public clases.Trabajo trabajo = null;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+public clases.Trabajo trabajo = null;
   public char c = (char)0;
 
   public Division ()
