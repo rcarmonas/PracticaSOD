@@ -25,7 +25,7 @@ public class ControladorImpl implements ControladorOperations{
 	}
 
 	@Override
-	public Division getTrabajo()
+	public Division getDivision()
 	{
 		try {
 			Division aux;
@@ -39,7 +39,7 @@ public class ControladorImpl implements ControladorOperations{
 	}
 
 	@Override
-	public boolean setTrabajo(Division t) 
+	public boolean setDivision(Division t) 
 	{
 		try {
 			this.queue.put(t);
@@ -49,11 +49,11 @@ public class ControladorImpl implements ControladorOperations{
 			return false;
 		}
 	}
-	private void dividirTrabajo(Trabajo t) throws InterruptedException
+	public void dividirTrabajo(Trabajo t)
 	{
 		//inserta las divisiones
 		for(int i=StrManager.INICIO; i<=StrManager.FIN; i++)
-			setTrabajo(new Division(t, (char)i));
+			setDivision(new Division(t, (char)i));
 	}
 	@Override
 	public boolean crearMD5(String cadena, int tam_maximo) {
@@ -67,12 +67,9 @@ public class ControladorImpl implements ControladorOperations{
 		aux.usuario = null;
 		aux.cadena = cadena;
 		trabajos.add(aux);
-		try {
-			dividirTrabajo(aux);
-			return true;
-		} catch (InterruptedException e) {
-			return false;
-		}
+		dividirTrabajo(aux);
+		return true;
+
 	}
 
 	@Override
@@ -87,12 +84,8 @@ public class ControladorImpl implements ControladorOperations{
 		aux.usuario = null;
 		aux.cadena = cadena;
 		trabajos.add(aux);
-		try {
-			dividirTrabajo(aux);
-			return true;
-		} catch (InterruptedException e) {
-			return false;
-		}
+		dividirTrabajo(aux);
+		return true;
 	}
 
 	@Override
@@ -108,12 +101,8 @@ public class ControladorImpl implements ControladorOperations{
 		aux.usuario = usuario;
 		aux.cadena = cadena;
 		trabajos.add(aux);
-		try {
-			dividirTrabajo(aux);
-			return true;
-		} catch (InterruptedException e) {
-			return false;
-		}
+		dividirTrabajo(aux);
+		return true;
 	}
 
 }

@@ -16,9 +16,10 @@ module clases {
 	};
 	interface Controlador
 	{
-		void finTrabajo(in unsigned long id, in string trabajo);
-		Division getTrabajo();
-		boolean setTrabajo(in Division t);
+		void finTrabajo(in unsigned long id, in string clave);
+		Division getDivision();
+		boolean setDivision(in Division t);
+		void dividirTrabajo(in Trabajo t);
 		boolean crearMD5(in string cadena, in unsigned long tam_maximo);
 		boolean crearSHA(in string cadena, in unsigned long tam_maximo);
 		boolean crearRed(in string cadena, in unsigned long puerto, in string usuario, in unsigned long tam_maximo);
