@@ -8,6 +8,7 @@ module clases {
 		string usuario;
 		unsigned long tam_maximo;
 		unsigned long progress;
+		string resultado;
 	};
 	struct Division
 	{
@@ -22,11 +23,12 @@ module clases {
 		const unsigned long SHA=1;
 		const unsigned long RED=2;
 		void finTrabajo(in unsigned long id, in string clave);
+		void borrarTrabajo(in Trabajo t);
 		Division getDivision();
 		boolean setDivision(in Division t);
 		void dividirTrabajo(in Trabajo t);
-		boolean crearMD5(in string cadena, in unsigned long tam_maximo);
-		boolean crearSHA(in string cadena, in unsigned long tam_maximo);
-		boolean crearRed(in string cadena, in unsigned long puerto, in string usuario, in unsigned long tam_maximo);
+		Trabajo crearMD5(in string cadena, in unsigned long tam_maximo);
+		Trabajo crearSHA(in string cadena, in unsigned long tam_maximo);
+		Trabajo crearRed(in string cadena, in unsigned long puerto, in string usuario, in unsigned long tam_maximo);
 	};
 };

@@ -22,6 +22,7 @@ public class ControladorImpl extends ControladorPOA{
 		{
 			trabajos.get(id).progress = MAX_PROGRESS;
 			//Procesar contraseña obtenida
+			trabajos.get(id).resultado=clave;
 		}
 		else if(trabajos.get(id).progress<MAX_PROGRESS)//Aumento el progreso...
 			trabajos.get(id).progress++;
@@ -60,27 +61,27 @@ public class ControladorImpl extends ControladorPOA{
 			setDivision(new Division(t, (char)i));
 	}
 	
-	public synchronized boolean crearMD5(String cadena, int tam_maximo)
+	public synchronized Trabajo crearMD5(String cadena, int tam_maximo)
 	{
 		int id = trabajos.size();
-		Trabajo aux = new Trabajo(id, MD5, cadena, 0, "", tam_maximo, 0);
+		Trabajo aux = new Trabajo(id, MD5, cadena, 0, "", tam_maximo, 0,"");
 		trabajos.add(aux);
 		dividirTrabajo(aux);
-		return true;
+		return aux;
 	}
 
 	
-	public synchronized boolean crearSHA(String cadena, int tam_maximo)
+	public synchronized Trabajo crearSHA(String cadena, int tam_maximo)
 	{
 		int id = trabajos.size();
-		Trabajo aux = new Trabajo(id, SHA, cadena, 0, "", tam_maximo, 0);
+		Trabajo aux = new Trabajo(id, SHA, cadena, 0, "", tam_maximo, 0,"");
 		trabajos.add(aux);
 		dividirTrabajo(aux);
-		return true;
+		return aux;
 	}
 
 	
-	public synchronized boolean crearRed(String cadena, int puerto, String usuario, int tam_maximo) 
+	public synchronized Trabajo crearRed(String cadena, int puerto, String usuario, int tam_maximo) 
 	{
 		Trabajo aux = new Trabajo();
 		int id = trabajos.size();
@@ -91,9 +92,10 @@ public class ControladorImpl extends ControladorPOA{
 		aux.tam_maximo = tam_maximo;
 		aux.usuario = usuario;
 		aux.cadena = cadena;
+		aux.resultado="";
 		trabajos.add(aux);
 		dividirTrabajo(aux);
-		return true;
+		return aux;
 	}
 
 	@Override
@@ -103,7 +105,12 @@ public class ControladorImpl extends ControladorPOA{
 
 	@Override
 	public void trabajos(Trabajo[] newTrabajos) {
-		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void borrarTrabajo(Trabajo t) {
+		// TODO Borrar el trabajo y todas las divisiones referentes a él.
 		
 	}
 }

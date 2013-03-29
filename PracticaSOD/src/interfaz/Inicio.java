@@ -265,20 +265,23 @@ public class Inicio {
 		btnIniciarAtaque.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
+					Trabajo aux=new Trabajo();
 					// Object aoNuevo[]= {comboBox.getSelectedItem(),textField.getText(),textField_1.getText(),textField_3.getText(),textField_4.getText(),textField_2.getText()};
 					// dtmModelo.addRow(aoNuevo);
 					 if(comboBox.getSelectedItem().equals("MD5"))
 					 {
-						 control.crearMD5(textField_4.getText(),Integer.parseInt(textField_2.getText()));
+						 aux=control.crearMD5(textField_4.getText(),Integer.parseInt(textField_2.getText()));
 					 }
 					 else if(comboBox.getSelectedItem().equals("SHA"))
 					 {
-						 control.crearSHA(textField_4.getText(), Integer.parseInt(textField_2.getText()));
+						 aux=control.crearSHA(textField_4.getText(), Integer.parseInt(textField_2.getText()));
 					 }
 					 else if(comboBox.getSelectedItem().equals("Red"))
 					 {
-						 control.crearRed(textField.getText(), Integer.parseInt(textField_1.getText()), textField_3.getText(), Integer.parseInt(textField_2.getText()));
+						 aux=control.crearRed(textField.getText(), Integer.parseInt(textField_1.getText()), textField_3.getText(), Integer.parseInt(textField_2.getText()));
 					 }
+					 HiloRevisor hr=new HiloRevisor(aux,control);
+					 hr.start();
 					 
 				}catch(NumberFormatException t){
 					JOptionPane.showMessageDialog(null, "Formato incorrecto");
