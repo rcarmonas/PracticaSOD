@@ -22,6 +22,12 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContextExtHelper;
+
+import clases.*;
+
 public class Inicio {
 	private JFrame ventana;
 	private JTextField textField_2;
@@ -32,16 +38,21 @@ public class Inicio {
 	private JTable jtTabla;
 	private JTextField textField_4;
 	private JPanel panel;
+	private Controlador control;
+	private HiloAtacante[] hilos=null;
+	private JTextField textField_5;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Inicio window = new Inicio();
 					window.ventana.setVisible(true);
+					window.control=buscarControlador(args);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,6 +60,29 @@ public class Inicio {
 		});
 	}
 
+	public static Controlador buscarControlador(String[] args)
+	{
+		try{
+			// Crear e inicializar el ORB
+			ORB orb = ORB.init(args, null);
+	        // Obtener la referencia CORBA al servidor de nombres
+	        org.omg.CORBA.Object objRef = 
+		    orb.resolve_initial_references("NameService");
+	
+	        // Traducir su referencia
+	        NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
+	 
+	        // Resolver el nombre
+	        String name = "Controlador";
+	        Controlador c=ControladorHelper.narrow(ncRef.resolve_str(name));
+	        return c;
+		}catch(Exception e)
+		{
+			System.err.println("Error CORBA");
+			return null;
+		}
+		
+	}
 	/**
 	 * Create the application.
 	 */
@@ -90,22 +124,54 @@ public class Inicio {
 		Bienvenida.add(lblBienvenido);
 		
 		//panel del controlador
-		JPanel Controlador = new JPanel();
+		final JPanel Controlador = new JPanel();
 		panel.add(Controlador, "name_7992336414471");
-		Controlador.setLayout(null);
-		JLabel lblControladorIniciado = new JLabel("Unido");
-		lblControladorIniciado.setBounds(426, 157, 52, 23);
-		Controlador.add(lblControladorIniciado);
+		Controlador.setLayout(new CardLayout(0, 0));
 		
-		JButton btnParar = new JButton("Salir");
-		btnParar.setBounds(390, 224, 124, 30);
-		btnParar.addActionListener(new ActionListener() {
+		JPanel Unirse = new JPanel();
+		Controlador.add(Unirse, "name_4528748878770");
+		
+		JLabel lblNmeroDeHilos = new JLabel("Número de hilos");
+		Unirse.add(lblNmeroDeHilos);
+		
+		textField_5 = new JTextField();
+		Unirse.add(textField_5);
+		textField_5.setColumns(4);
+		
+		JButton btnUnirse = new JButton("Unirse");
+		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CardLayout cl = (CardLayout)(panel.getLayout());
-				cl.show(panel, "name_7992351480176");
+				hilos=new HiloAtacante[Integer.parseInt(textField_5.getText())];
+				for(int i=0;i<Integer.parseInt(textField_5.getText());i++)
+				{
+					hilos[i]=new HiloAtacante(control);
+					hilos[i].start();
+				}
+				CardLayout cl = (CardLayout)(Controlador.getLayout());
+			    cl.show(Controlador, "name_4475524850557");
 			}
 		});
-		Controlador.add(btnParar);
+		Unirse.add(btnUnirse);
+		
+		JPanel Unido = new JPanel();
+		Controlador.add(Unido, "name_4475524850557");
+		JLabel lblControladorIniciado = new JLabel("Unido");
+		Unido.add(lblControladorIniciado);
+		
+		JButton btnParar = new JButton("Salir");
+		btnParar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for(int i=0;i<hilos.length;i++)
+				{
+					hilos[i].disactive();
+				}
+				hilos=null;
+				CardLayout cl = (CardLayout)(Controlador.getLayout());
+			    cl.show(Controlador, "name_4528748878770");
+			}
+		});
+		Unido.add(btnParar);
+		
 		
 		//panel de nuevo ataque
 		JPanel NuevoAtaque = new JPanel();
@@ -199,8 +265,21 @@ public class Inicio {
 		btnIniciarAtaque.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
-					 Object aoNuevo[]= {comboBox.getSelectedItem(),textField.getText(),textField_1.getText(),textField_3.getText(),textField_4.getText(),textField_2.getText()};
-					 dtmModelo.addRow(aoNuevo);
+					// Object aoNuevo[]= {comboBox.getSelectedItem(),textField.getText(),textField_1.getText(),textField_3.getText(),textField_4.getText(),textField_2.getText()};
+					// dtmModelo.addRow(aoNuevo);
+					 if(comboBox.getSelectedItem().equals("MD5"))
+					 {
+						 control.crearMD5(textField_4.getText(),Integer.parseInt(textField_2.getText()));
+					 }
+					 else if(comboBox.getSelectedItem().equals("SHA"))
+					 {
+						 control.crearSHA(textField_4.getText(), Integer.parseInt(textField_2.getText()));
+					 }
+					 else if(comboBox.getSelectedItem().equals("Red"))
+					 {
+						 control.crearRed(textField.getText(), Integer.parseInt(textField_1.getText()), textField_3.getText(), Integer.parseInt(textField_2.getText()));
+					 }
+					 
 				}catch(NumberFormatException t){
 					JOptionPane.showMessageDialog(null, "Formato incorrecto");
 				}
@@ -268,6 +347,17 @@ public class Inicio {
 			public void actionPerformed(ActionEvent arg0) {
 				CardLayout cl = (CardLayout)(panel.getLayout());
 			    cl.show(panel, "name_7992336414471");
+			    if(hilos!=null)
+			    {
+			    	cl = (CardLayout)(Controlador.getLayout());
+				    cl.show(Controlador, "name_4475524850557");
+			    }
+			    else
+			    {
+			    	cl = (CardLayout)(Controlador.getLayout());
+				    cl.show(Controlador, "name_4528748878770");
+			    }
+			    
 			}
 		});
 		mnControlador.add(mntmIniciarControlador);
@@ -287,6 +377,28 @@ public class Inicio {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Ver Ataques");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				for(int i=0;i<dtmModelo.getRowCount();i++)
+					dtmModelo.removeRow(i);
+				Trabajo[] trabajos=control.trabajos();
+				for(int i=0;i<trabajos.length;i++)
+				{
+					if(trabajos[i].tipo==ControladorImpl.MD5)
+					{
+						Object aoNuevo[]= {"MD5","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
+						dtmModelo.addRow(aoNuevo);
+					}
+					else if(trabajos[i].tipo==ControladorImpl.SHA)
+					{
+						Object aoNuevo[]= {"SHA","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
+						dtmModelo.addRow(aoNuevo);
+					}
+					else if(trabajos[i].tipo==ControladorImpl.RED)
+					{
+						Object aoNuevo[]= {"Red",trabajos[i].cadena,trabajos[i].puerto,trabajos[i].usuario,"",trabajos[i].tam_maximo};
+						dtmModelo.addRow(aoNuevo);
+					}
+				}
+				
 				CardLayout cl = (CardLayout)(panel.getLayout());
 			    cl.show(panel, "name_3410875170670");
 			}

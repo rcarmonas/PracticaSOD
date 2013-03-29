@@ -16,6 +16,11 @@ module clases {
 	};
 	interface Controlador
 	{
+		typedef sequence <Trabajo> trabajosList;
+		attribute trabajosList trabajos;
+		const unsigned long MD5=0;
+		const unsigned long SHA=1;
+		const unsigned long RED=2;
 		void finTrabajo(in unsigned long id, in string clave);
 		Division getDivision();
 		boolean setDivision(in Division t);

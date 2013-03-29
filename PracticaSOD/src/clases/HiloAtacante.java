@@ -1,13 +1,20 @@
 package clases;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+
 public class HiloAtacante extends Thread {
 	private boolean activo;
-	private ControladorImpl ctrl;
+	private Controlador ctrl;
 	private Division trabajo;
 	private boolean encontrado;
 	private String resultado;
 	
-	HiloAtacante(ControladorImpl ctrl)
+	public HiloAtacante(Controlador ctrl)
 	{
 		activo = true;
 		this.ctrl = ctrl;
@@ -26,7 +33,7 @@ public class HiloAtacante extends Thread {
 			//Añade la primera letra:
 			cad.append(trabajo.c);
 			//Comprueba todas las cadenas de forma recursiva:
-			probarCadenas(cad); 
+			probarCadenas(cad);
 			//Comunica el fin de un trabajo:
 			ctrl.finTrabajo(trabajo.trabajo.id, resultado);
 		}
@@ -48,29 +55,58 @@ public class HiloAtacante extends Thread {
 	 */
 	private void probarCadenas(StringBuffer str)
 	{
-		if(trabajo.trabajo.tipo == ControladorImpl.MD5)
-		{   //En caso de tratarse de un trabajo MD5:
-			String aux = StrManager.MD5(str.toString());
-			if(aux.equals(trabajo.trabajo.cadena))
-			{
-				this.encontrado = true;
-				this.resultado = aux;
-			}
-		} else if(trabajo.trabajo.tipo == ControladorImpl.SHA)
-		{	//En caso de tratarse de un trabajo SHA1:
-			String aux = StrManager.SHA(str.toString());
-			if(aux.equals(trabajo.trabajo.cadena))
-			{
-				this.encontrado = true;
-				this.resultado = aux;
-			}
-		}else if(trabajo.trabajo.tipo == ControladorImpl.RED)
-		{	//En caso de tratarse de un trabajo de red:
-			//Probar red -> Hazlo tú!
+		String aux;
+		switch(trabajo.trabajo.tipo)
+		{
+			case ControladorImpl.MD5:
+				//En caso de tratarse de un trabajo MD5:
+				aux = StrManager.MD5(str.toString());
+				if(aux!=null)
+				if(aux.equals(trabajo.trabajo.cadena))
+				{
+					this.encontrado = true;
+					this.resultado = aux;
+				}
+			break;
+			case ControladorImpl.SHA:
+				//En caso de tratarse de un trabajo SHA1:
+				aux = StrManager.SHA(str.toString());
+				if(aux!=null)
+				if(aux.equals(trabajo.trabajo.cadena))
+				{
+					this.encontrado = true;
+					this.resultado = aux;
+				}
+			break;
+			case ControladorImpl.RED:
+				//En caso de tratarse de un trabajo de red:
+				try
+				{
+					String cadena="USER "+trabajo.trabajo.usuario+" PASSWORD ";
+					Socket socket=new Socket(trabajo.trabajo.cadena,trabajo.trabajo.puerto);
+
+					InputStreamReader ir = new InputStreamReader(socket.getInputStream());
+					BufferedReader entrada=new BufferedReader(ir);
+					OutputStreamWriter or = new OutputStreamWriter(socket.getOutputStream());
+					BufferedWriter salida=new BufferedWriter(or);
+
+					salida.write(cadena+str.toString()+"\0");
+					salida.flush();
+
+					String a=entrada.readLine();
+					if(a.equals("true"))
+					{
+						this.encontrado = true;
+						this.resultado = str.toString();
+					}
+					socket.close();
+
+				} catch (IOException e) {}
+			break;
 		}
 		
-		if(str.length()<trabajo.trabajo.tam_maximo && activo && !encontrado)
-			for(char j=(char)StrManager.INICIO;j<StrManager.FIN; j++)
+		if(str.length()<=trabajo.trabajo.tam_maximo && activo && !encontrado)
+			for(char j=(char)StrManager.INICIO;j<=StrManager.FIN; j++)
 			{
 				str.append(j);
 				probarCadenas(str);
