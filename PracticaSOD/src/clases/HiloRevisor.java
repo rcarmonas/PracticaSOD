@@ -20,8 +20,8 @@ public class HiloRevisor extends Thread {
 				if(trabajos.get(i).progress==ControladorImpl.MAX_PROGRESS)
 				{
 					JOptionPane.showMessageDialog(null, "Trabajo con ID "+trabajos.get(i).id+" finalizado\nResultado: "+trabajos.get(i).resultado);
-					trabajos.remove(i);
 					controlador.borrarTrabajo(trabajos.get(i));
+					trabajos.remove(i);
 				}
 			}
 			try {
