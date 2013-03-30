@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -40,6 +41,8 @@ public class Inicio {
 	private JPanel panel;
 	private Controlador control;
 	private HiloAtacante[] hilos=null;
+	private HiloRevisor hiloRevisor;
+	private ArrayList<Trabajo> trabajosRevisar;
 	private JTextField textField_5;
 
 	/**
@@ -49,10 +52,8 @@ public class Inicio {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Inicio window = new Inicio();
-					window.ventana.setVisible(true);
-					window.control=buscarControlador(args);
-					
+					Inicio window = new Inicio(args);
+					window.ventana.setVisible(true);					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -86,7 +87,11 @@ public class Inicio {
 	/**
 	 * Create the application.
 	 */
-	public Inicio() {
+	public Inicio(String[] args) {
+		trabajosRevisar=new ArrayList<Trabajo>();
+		control=buscarControlador(args);
+		hiloRevisor=new HiloRevisor(trabajosRevisar,control);
+		hiloRevisor.start();
 		initialize();
 	}
 
@@ -266,8 +271,6 @@ public class Inicio {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					Trabajo aux=new Trabajo();
-					// Object aoNuevo[]= {comboBox.getSelectedItem(),textField.getText(),textField_1.getText(),textField_3.getText(),textField_4.getText(),textField_2.getText()};
-					// dtmModelo.addRow(aoNuevo);
 					 if(comboBox.getSelectedItem().equals("MD5"))
 					 {
 						 aux=control.crearMD5(textField_4.getText(),Integer.parseInt(textField_2.getText()));
@@ -280,8 +283,7 @@ public class Inicio {
 					 {
 						 aux=control.crearRed(textField.getText(), Integer.parseInt(textField_1.getText()), textField_3.getText(), Integer.parseInt(textField_2.getText()));
 					 }
-					 HiloRevisor hr=new HiloRevisor(aux,control);
-					 hr.start();
+					 trabajosRevisar.add(aux);
 					 
 				}catch(NumberFormatException t){
 					JOptionPane.showMessageDialog(null, "Formato incorrecto");
@@ -299,6 +301,7 @@ public class Inicio {
 		//creacion de la tabla
 		//defino un modelo de tabla con las columnas necesarias
 		dtmModelo = new DefaultTableModel();
+		dtmModelo.addColumn("ID");
 		dtmModelo.addColumn("Tipo");
 		dtmModelo.addColumn("Dirección");
 		dtmModelo.addColumn("Puerto");
@@ -387,17 +390,17 @@ public class Inicio {
 				{
 					if(trabajos[i].tipo==ControladorImpl.MD5)
 					{
-						Object aoNuevo[]= {"MD5","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
+						Object aoNuevo[]= {trabajos[i].id,"MD5","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
 						dtmModelo.addRow(aoNuevo);
 					}
 					else if(trabajos[i].tipo==ControladorImpl.SHA)
 					{
-						Object aoNuevo[]= {"SHA","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
+						Object aoNuevo[]= {trabajos[i].id,"SHA","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
 						dtmModelo.addRow(aoNuevo);
 					}
 					else if(trabajos[i].tipo==ControladorImpl.RED)
 					{
-						Object aoNuevo[]= {"Red",trabajos[i].cadena,trabajos[i].puerto,trabajos[i].usuario,"",trabajos[i].tam_maximo};
+						Object aoNuevo[]= {trabajos[i].id,"Red",trabajos[i].cadena,trabajos[i].puerto,trabajos[i].usuario,"",trabajos[i].tam_maximo};
 						dtmModelo.addRow(aoNuevo);
 					}
 				}

@@ -1,23 +1,28 @@
 package clases;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 public class HiloRevisor extends Thread {
 
-	Trabajo trabajo;
+	ArrayList<Trabajo> trabajos;
 	Controlador controlador;
-	public HiloRevisor(Trabajo t,Controlador c){
-		trabajo=t;
+	public HiloRevisor(ArrayList<Trabajo> t,Controlador c){
+		trabajos=t;
 		controlador=c;
 	}
 	public void run(){
-		boolean continuar=true;
-		while(continuar){
-			if(trabajo.progress==ControladorImpl.MAX_PROGRESS)
+		while(true)
+		{
+			for(int i=0;i<trabajos.size();i++)
 			{
-				JOptionPane.showMessageDialog(null, "Trabajo finalizado\nResultado: "+trabajo.resultado);
-				controlador.borrarTrabajo(trabajo);
-				continuar=false;
+				if(trabajos.get(i).progress==ControladorImpl.MAX_PROGRESS)
+				{
+					JOptionPane.showMessageDialog(null, "Trabajo con ID "+trabajos.get(i).id+" finalizado\nResultado: "+trabajos.get(i).resultado);
+					trabajos.remove(i);
+					controlador.borrarTrabajo(trabajos.get(i));
+				}
 			}
 			try {
 				Thread.sleep(2000);
