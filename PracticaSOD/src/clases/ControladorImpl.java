@@ -119,7 +119,7 @@ public class ControladorImpl extends ControladorPOA{
 		            queue.remove(em);
 		        }   
 		    }
-		  trabajos.remove(id);
+		  trabajos.set(id, null);
 	}
 
 	@Override
