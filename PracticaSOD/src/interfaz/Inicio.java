@@ -334,7 +334,15 @@ public class Inicio {
 				int [] aiSeleccionadas=jtTabla.getSelectedRows();
 				int iLongitud=aiSeleccionadas.length;
 				for(int i=iLongitud-1;i>=0;i--)
+				{
+					int id=Integer.parseInt(jtTabla.getValueAt(i, 0).toString());
+					control.borrarTrabajo(id);
 					dtmModelo.removeRow(aiSeleccionadas[i]);
+					if(trabajosRevisar.contains(id))
+					{
+						trabajosRevisar.remove(id);
+					}
+				}
 			}
 		});
 		VerAtaques.add(btnBorrarSelecciondos, BorderLayout.SOUTH);

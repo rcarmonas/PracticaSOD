@@ -124,6 +124,8 @@ public class ControladorImpl extends ControladorPOA{
 
 	@Override
 	public Trabajo getTrabajo(int id) {
+		try{
 		return trabajos.get(id);
+		}catch(Exception e){return null;}
 	}
 }
