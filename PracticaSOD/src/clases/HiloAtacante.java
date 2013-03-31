@@ -95,7 +95,7 @@ public class HiloAtacante extends Thread {
 					if(aux.equals(trabajo.trabajo.cadena))
 					{
 						this.encontrado = true;
-						this.resultado = aux;
+						this.resultado = actual;
 					}
 				break;
 				case ControladorImpl.SHA:
@@ -104,8 +104,8 @@ public class HiloAtacante extends Thread {
 					if(aux!=null)
 					if(aux.equals(trabajo.trabajo.cadena))
 					{
-						this.trabajo.trabajo.progress = ControladorImpl.MAX_PROGRESS;
-						this.resultado = aux;
+						this.encontrado = true;
+						this.resultado = actual;
 					}
 				break;
 				case ControladorImpl.RED:
@@ -127,7 +127,7 @@ public class HiloAtacante extends Thread {
 						if(a.equals("true"))
 						{
 							this.encontrado = true;
-							this.resultado = actual.toString();
+							this.resultado = actual;
 							socket.close();
 						}
 						socket.close();

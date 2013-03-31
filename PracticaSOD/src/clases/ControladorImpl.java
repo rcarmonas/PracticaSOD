@@ -36,11 +36,7 @@ public class ControladorImpl extends ControladorPOA{
 	public Division getDivision()
 	{
 		try {
-			Division aux;
-			//do{
-				aux = this.queue.take();
-			//}while(aux.trabajo.progress < MAX_PROGRESS);
-			return aux;
+			return this.queue.take();
 		} catch (InterruptedException e) {
 			return null;
 		}
