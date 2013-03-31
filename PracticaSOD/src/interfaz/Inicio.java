@@ -340,7 +340,7 @@ public class Inicio {
 					dtmModelo.removeRow(aiSeleccionadas[i]);
 					if(trabajosRevisar.contains(id))
 					{
-						trabajosRevisar.remove(id);
+						trabajosRevisar.remove((Integer)id);
 					}
 				}
 			}
@@ -391,8 +391,13 @@ public class Inicio {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Ver Ataques");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				for(int i=0;i<dtmModelo.getRowCount();i++)
+				int nrows=dtmModelo.getRowCount();
+				System.out.println(nrows);
+				for(int i=nrows-1;i>=0;i--)
+				{
 					dtmModelo.removeRow(i);
+				}
+					
 				Trabajo[] trabajos=control.trabajos();
 				for(int i=0;i<trabajos.length;i++)
 				{
