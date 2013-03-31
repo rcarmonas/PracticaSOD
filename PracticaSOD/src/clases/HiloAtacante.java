@@ -22,10 +22,10 @@ public class HiloAtacante extends Thread {
 	
 	public void run()
 	{
-		String alfabeto="";
-		for(int i=32;i<126;i++)
-		alfabeto=alfabeto+(char)i;
-		char[] elementos = alfabeto.toCharArray();
+		StringBuffer alfabeto=new StringBuffer();
+		for(int i=StrManager.INICIO;i<StrManager.FIN;i++)
+			alfabeto.append((char)i);
+		char[] elementos = alfabeto.toString().toCharArray();
 		while(activo)
 		{
 			//Inicialización de datos
@@ -53,11 +53,12 @@ public class HiloAtacante extends Thread {
 			ctrl.setDivision(trabajo);
 		this.activo = false;
 	}
-	/**
+	
+	/** NO SE USA
 	 * Prueba de forma recursiva todas las cadenas posibles hasta encontrar
 	 * un resultado o terminar
 	 * @param str Cadena que llevamos por ahora
-	 */
+	 
 	private void probarCadenas(StringBuffer str)
 	{
 		probarCombinacion(str.toString());
@@ -70,6 +71,7 @@ public class HiloAtacante extends Thread {
 				str.deleteCharAt(str.length()-1);
 			}
 	}
+	*/
 	private void generarCombinaciones(char[] elementos, String actual, int cantidad)
 	{
 			if(cantidad==0) {
