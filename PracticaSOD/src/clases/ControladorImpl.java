@@ -1,6 +1,7 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ControladorImpl extends ControladorPOA{
@@ -18,14 +19,17 @@ public class ControladorImpl extends ControladorPOA{
 	
 	public void finTrabajo(int id, String clave) 
 	{
-		if(clave!=null)//Acabado!
+		try{
+		if(!clave.equals(""))//Acabado!
 		{
+			System.out.println("Trabajo: "+id+" Resultado: "+clave);
 			trabajos.get(id).progress = MAX_PROGRESS;
 			//Procesar contraseña obtenida
 			trabajos.get(id).resultado=clave;
 		}
 		else if(trabajos.get(id).progress<MAX_PROGRESS)//Aumento el progreso...
 			trabajos.get(id).progress++;
+		}catch(Exception e){}
 	}
 
 	
@@ -33,9 +37,9 @@ public class ControladorImpl extends ControladorPOA{
 	{
 		try {
 			Division aux;
-			do{
+			//do{
 				aux = this.queue.take();
-			}while(aux.trabajo.progress < MAX_PROGRESS);
+			//}while(aux.trabajo.progress < MAX_PROGRESS);
 			return aux;
 		} catch (InterruptedException e) {
 			return null;
@@ -109,8 +113,21 @@ public class ControladorImpl extends ControladorPOA{
 	}
 
 	@Override
-	public void borrarTrabajo(Trabajo t) {
-		// TODO Borrar el trabajo y todas las divisiones referentes a él.
-		
+	public void borrarTrabajo(int id) {
+		 Iterator<Division> it = queue.iterator();
+		    while(it.hasNext())
+		    {
+		        Division em = it.next();
+		        if(em.trabajo.id==id)
+		        {
+		            queue.remove(em);
+		        }   
+		    }
+		  trabajos.remove(id);
+	}
+
+	@Override
+	public Trabajo getTrabajo(int id) {
+		return trabajos.get(id);
 	}
 }

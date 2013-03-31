@@ -6,9 +6,9 @@ import javax.swing.JOptionPane;
 
 public class HiloRevisor extends Thread {
 
-	ArrayList<Trabajo> trabajos;
+	ArrayList<Integer> trabajos;
 	Controlador controlador;
-	public HiloRevisor(ArrayList<Trabajo> t,Controlador c){
+	public HiloRevisor(ArrayList<Integer> t,Controlador c){
 		trabajos=t;
 		controlador=c;
 	}
@@ -17,11 +17,14 @@ public class HiloRevisor extends Thread {
 		{
 			for(int i=0;i<trabajos.size();i++)
 			{
-				if(trabajos.get(i).progress==ControladorImpl.MAX_PROGRESS)
+				Trabajo trab=controlador.getTrabajo(trabajos.get(i));
+				if(trab.progress==ControladorImpl.MAX_PROGRESS)
 				{
-					JOptionPane.showMessageDialog(null, "Trabajo con ID "+trabajos.get(i).id+" finalizado\nResultado: "+trabajos.get(i).resultado);
-					controlador.borrarTrabajo(trabajos.get(i));
+					int aux=trab.id;
+					String res=trab.resultado;
 					trabajos.remove(i);
+					controlador.borrarTrabajo(aux);
+					JOptionPane.showMessageDialog(null, "Trabajo con ID "+aux+" finalizado\nResultado: "+res);
 				}
 			}
 			try {

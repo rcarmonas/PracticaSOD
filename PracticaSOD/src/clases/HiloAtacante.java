@@ -22,18 +22,23 @@ public class HiloAtacante extends Thread {
 	
 	public void run()
 	{
+		String alfabeto="";
+		for(int i=32;i<126;i++)
+		alfabeto=alfabeto+(char)i;
+		char[] elementos = alfabeto.toCharArray();
 		while(activo)
 		{
 			//Inicialización de datos
 			this.encontrado = false;
-			this.resultado = null;
+			this.resultado = "";
 			StringBuffer cad = new StringBuffer();
 			//Obtengo un trabajo:
 			trabajo = ctrl.getDivision();
 			//Añade la primera letra:
 			cad.append(trabajo.c);
 			//Comprueba todas las cadenas de forma recursiva:
-			probarCadenas(cad);
+			//probarCadenas(cad);
+			generarCombinaciones(elementos,cad.toString(),trabajo.trabajo.tam_maximo-1);
 			//Comunica el fin de un trabajo:
 			ctrl.finTrabajo(trabajo.trabajo.id, resultado);
 		}
@@ -55,62 +60,81 @@ public class HiloAtacante extends Thread {
 	 */
 	private void probarCadenas(StringBuffer str)
 	{
-		String aux;
-		switch(trabajo.trabajo.tipo)
-		{
-			case ControladorImpl.MD5:
-				//En caso de tratarse de un trabajo MD5:
-				aux = StrManager.MD5(str.toString());
-				if(aux!=null)
-				if(aux.equals(trabajo.trabajo.cadena))
-				{
-					this.encontrado = true;
-					this.resultado = aux;
-				}
-			break;
-			case ControladorImpl.SHA:
-				//En caso de tratarse de un trabajo SHA1:
-				aux = StrManager.SHA(str.toString());
-				if(aux!=null)
-				if(aux.equals(trabajo.trabajo.cadena))
-				{
-					this.encontrado = true;
-					this.resultado = aux;
-				}
-			break;
-			case ControladorImpl.RED:
-				//En caso de tratarse de un trabajo de red:
-				try
-				{
-					String cadena="USER "+trabajo.trabajo.usuario+" PASSWORD ";
-					Socket socket=new Socket(trabajo.trabajo.cadena,trabajo.trabajo.puerto);
-
-					InputStreamReader ir = new InputStreamReader(socket.getInputStream());
-					BufferedReader entrada=new BufferedReader(ir);
-					OutputStreamWriter or = new OutputStreamWriter(socket.getOutputStream());
-					BufferedWriter salida=new BufferedWriter(or);
-
-					salida.write(cadena+str.toString()+"\0");
-					salida.flush();
-
-					String a=entrada.readLine();
-					if(a.equals("true"))
-					{
-						this.encontrado = true;
-						this.resultado = str.toString();
-					}
-					socket.close();
-
-				} catch (IOException e) {}
-			break;
-		}
+		probarCombinacion(str.toString());
 		
-		if(str.length()<=trabajo.trabajo.tam_maximo && activo && !encontrado)
+		if(str.length()<=trabajo.trabajo.tam_maximo-1 && activo && !encontrado)
 			for(char j=(char)StrManager.INICIO;j<=StrManager.FIN; j++)
 			{
 				str.append(j);
 				probarCadenas(str);
 				str.deleteCharAt(str.length()-1);
 			}
+	}
+	private void generarCombinaciones(char[] elementos, String actual, int cantidad)
+	{
+			if(cantidad==0) {
+				probarCombinacion(actual);
+	        }
+	        else {
+	            for(int i=0; i<elementos.length; i++) {
+	                generarCombinaciones(elementos, actual+elementos[i],cantidad-1);
+	            }
+	        }
+	}
+	private void probarCombinacion(String actual)
+	{
+		if(activo&&!encontrado)
+		{
+			String aux;
+			switch(trabajo.trabajo.tipo)
+			{
+				case ControladorImpl.MD5:
+					//En caso de tratarse de un trabajo MD5:
+					aux = StrManager.MD5(actual);
+					if(aux!=null)
+					if(aux.equals(trabajo.trabajo.cadena))
+					{
+						this.encontrado = true;
+						this.resultado = aux;
+					}
+				break;
+				case ControladorImpl.SHA:
+					//En caso de tratarse de un trabajo SHA1:
+					aux = StrManager.SHA(actual.toString());
+					if(aux!=null)
+					if(aux.equals(trabajo.trabajo.cadena))
+					{
+						this.trabajo.trabajo.progress = ControladorImpl.MAX_PROGRESS;
+						this.resultado = aux;
+					}
+				break;
+				case ControladorImpl.RED:
+					//En caso de tratarse de un trabajo de red:
+					try
+					{
+						String cadena="USER "+trabajo.trabajo.usuario+" PASSWORD ";
+						Socket socket=new Socket(trabajo.trabajo.cadena,trabajo.trabajo.puerto);
+	
+						InputStreamReader ir = new InputStreamReader(socket.getInputStream());
+						BufferedReader entrada=new BufferedReader(ir);
+						OutputStreamWriter or = new OutputStreamWriter(socket.getOutputStream());
+						BufferedWriter salida=new BufferedWriter(or);
+	
+						salida.write(cadena+actual+"\0");
+						salida.flush();
+	
+						String a=entrada.readLine();
+						if(a.equals("true"))
+						{
+							this.encontrado = true;
+							this.resultado = actual.toString();
+							socket.close();
+						}
+						socket.close();
+	
+					} catch (IOException e) {}
+				break;
+			}
+		}
 	}
 }

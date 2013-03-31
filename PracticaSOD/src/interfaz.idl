@@ -23,8 +23,9 @@ module clases {
 		const unsigned long SHA=1;
 		const unsigned long RED=2;
 		void finTrabajo(in unsigned long id, in string clave);
-		void borrarTrabajo(in Trabajo t);
+		void borrarTrabajo(in unsigned long id);
 		Division getDivision();
+		Trabajo getTrabajo(in unsigned long id);
 		boolean setDivision(in Division t);
 		void dividirTrabajo(in Trabajo t);
 		Trabajo crearMD5(in string cadena, in unsigned long tam_maximo);

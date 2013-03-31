@@ -42,7 +42,7 @@ public class Inicio {
 	private Controlador control;
 	private HiloAtacante[] hilos=null;
 	private HiloRevisor hiloRevisor;
-	private ArrayList<Trabajo> trabajosRevisar;
+	private ArrayList<Integer> trabajosRevisar;
 	private JTextField textField_5;
 
 	/**
@@ -88,7 +88,7 @@ public class Inicio {
 	 * Create the application.
 	 */
 	public Inicio(String[] args) {
-		trabajosRevisar=new ArrayList<Trabajo>();
+		trabajosRevisar=new ArrayList<Integer>();
 		control=buscarControlador(args);
 		hiloRevisor=new HiloRevisor(trabajosRevisar,control);
 		hiloRevisor.start();
@@ -283,7 +283,7 @@ public class Inicio {
 					 {
 						 aux=control.crearRed(textField.getText(), Integer.parseInt(textField_1.getText()), textField_3.getText(), Integer.parseInt(textField_2.getText()));
 					 }
-					 trabajosRevisar.add(aux);
+					 trabajosRevisar.add(aux.id);
 					 
 				}catch(NumberFormatException t){
 					JOptionPane.showMessageDialog(null, "Formato incorrecto");
