@@ -3,6 +3,12 @@ package clases;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Clase que contiene varias funciones de manejo de cadenas. En concreto para
+ * aplicar los algoritmos MD5 y SHA1
+ * @author Rafael Carmona Sánchez
+ * @author José Manuel Herruzo Ruiz
+ */
 public class StrManager {
 	
 	static int INICIO = 32;
@@ -63,56 +69,3 @@ public class StrManager {
     }
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * AL FINAL NO SE USA, ME GUSTA MÁS OTRO MÉTODO
- */
-/**
- * Obtiene la cadena siguiente a la actual para su procesado
- * @param actual Cadena actual
- * @return Cadena siguiente
- */
-/*
-public static String getNext(String actual, int tam_max)
-{
-	StringBuffer aux = new StringBuffer();
-	boolean continuar=true; //Continua procesando caracteres o no
-	for(int i=actual.length()-1; i>0; i--)
-	{
-		char cAux = actual.charAt(i);
-		if(cAux<FIN && continuar)//En caso de que no sea el último caracter
-		{
-			aux.append(cAux+1);
-			continuar = false;
-		}
-		else if(continuar)//En caso de que sea el último
-			aux.append(INICIO);
-		else//Se añaden los carácteres restantes
-			aux.append(cAux);
-	}
-	aux.append(actual.charAt(0));
-	String result = aux.reverse().toString();
-	
-	if(result.charAt(0)!=actual.charAt(0))
-		return null;
-	else
-		return result;
-}
-*/

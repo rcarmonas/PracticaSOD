@@ -6,7 +6,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-
+/**
+ * Hilo encargado de realizar los ataques. Para ello obtiene los trabajos
+ * de una cola y los procesa para luego informar al controlador de que el 
+ * trabajo ha sido finalizado.
+ * @author Rafael Carmona Sánchez
+ * @author José Manuel Herruzo Ruiz
+ */
 public class HiloAtacante extends Thread {
 	private boolean activo;
 	private Controlador ctrl;
@@ -37,8 +43,8 @@ public class HiloAtacante extends Thread {
 			//Añade la primera letra:
 			cad.append(trabajo.c);
 			//Comprueba todas las cadenas de forma recursiva:
-			//probarCadenas(cad);
-			generarCombinaciones(elementos,cad.toString(),trabajo.trabajo.tam_maximo-1);
+			probarCadenas(cad);
+			//generarCombinaciones(elementos,cad.toString(),trabajo.trabajo.tam_maximo-1);
 			//Comunica el fin de un trabajo:
 			ctrl.finTrabajo(trabajo.trabajo.id, resultado);
 		}
@@ -70,6 +76,14 @@ public class HiloAtacante extends Thread {
 				str.deleteCharAt(str.length()-1);
 			}
 	}
+	/**
+	 * Función recursiva para probar todas las cadenas posibles
+	 * @param elementos
+	 * @param actual
+	 * @param cantidad
+	 * @deprecated Ha sido sustituida por probarCadenas
+	 */
+	@SuppressWarnings("unused")
 	private void generarCombinaciones(char[] elementos, String actual, int cantidad)
 	{
 			if(cantidad==0) {
@@ -81,6 +95,10 @@ public class HiloAtacante extends Thread {
 	            }
 	        }
 	}
+	/**
+	 * Prueba la combinación actual para averiguar si es la que buscamos
+	 * @param actual combinación a probar
+	 */
 	private void probarCombinacion(String actual)
 	{
 		if(activo&&!encontrado)

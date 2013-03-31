@@ -3,7 +3,13 @@ package clases;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-
+/**
+ * Hilo de ejecución que se encarga de revisar si los
+ * trabajos que ha generado el propio cliente han terminado y eliminarlos de
+ * su tabla en caso de que así sea.
+ * @author Rafael Carmona Sánchez
+ * @author José Manuel Herruzo Ruiz
+ */
 public class HiloRevisor extends Thread {
 
 	ArrayList<Integer> trabajos;
