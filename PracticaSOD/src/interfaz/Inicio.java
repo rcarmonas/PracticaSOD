@@ -92,6 +92,18 @@ public class Inicio {
 		control=buscarControlador(args);
 		hiloRevisor=new HiloRevisor(trabajosRevisar,control);
 		hiloRevisor.start();
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
+		    @Override
+		    public void run()
+		    {
+		    	if(hilos!=null)
+		    	for(int i=0;i<hilos.length;i++)
+				{
+					hilos[i].disactive();
+				}
+		    }
+		});
 		initialize();
 	}
 
