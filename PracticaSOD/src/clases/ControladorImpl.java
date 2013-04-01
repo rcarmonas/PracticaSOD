@@ -64,7 +64,7 @@ public class ControladorImpl extends ControladorPOA{
 	public synchronized Trabajo crearMD5(String cadena, int tam_maximo)
 	{
 		int id = trabajos.size();
-		Trabajo aux = new Trabajo(id, MD5, cadena, 0, "", tam_maximo, 0,"");
+		Trabajo aux = new Trabajo(false,id, MD5, cadena, 0, "", tam_maximo, 0,"");
 		trabajos.add(aux);
 		dividirTrabajo(aux);
 		return aux;
@@ -74,7 +74,7 @@ public class ControladorImpl extends ControladorPOA{
 	public synchronized Trabajo crearSHA(String cadena, int tam_maximo)
 	{
 		int id = trabajos.size();
-		Trabajo aux = new Trabajo(id, SHA, cadena, 0, "", tam_maximo, 0,"");
+		Trabajo aux = new Trabajo(false,id, SHA, cadena, 0, "", tam_maximo, 0,"");
 		trabajos.add(aux);
 		dividirTrabajo(aux);
 		return aux;
@@ -119,7 +119,8 @@ public class ControladorImpl extends ControladorPOA{
 		            queue.remove(em);
 		        }   
 		    }
-		  trabajos.set(id, null);
+		  //trabajos.set(id, null);
+		    trabajos.get(id).borrado=true;
 	}
 
 	@Override

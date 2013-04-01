@@ -68,7 +68,7 @@ public class HiloAtacante extends Thread {
 	{
 		probarCombinacion(str.toString());
 		
-		if(str.length()<=trabajo.trabajo.tam_maximo-1 && activo && !encontrado)
+		if(str.length()<=trabajo.trabajo.tam_maximo-1 && activo && !encontrado&&ctrl.getTrabajo(trabajo.trabajo.id).borrado==false)
 			for(char j=(char)StrManager.INICIO;j<=StrManager.FIN; j++)
 			{
 				str.append(j);
@@ -101,7 +101,7 @@ public class HiloAtacante extends Thread {
 	 */
 	private void probarCombinacion(String actual)
 	{
-		if(activo&&!encontrado)
+		if(activo&&!encontrado&&ctrl.getTrabajo(trabajo.trabajo.id).borrado==false)
 		{
 			String aux;
 			switch(trabajo.trabajo.tipo)

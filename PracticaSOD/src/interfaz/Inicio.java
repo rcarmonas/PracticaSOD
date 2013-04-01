@@ -392,7 +392,6 @@ public class Inicio {
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int nrows=dtmModelo.getRowCount();
-				System.out.println(nrows);
 				for(int i=nrows-1;i>=0;i--)
 				{
 					dtmModelo.removeRow(i);
@@ -401,20 +400,23 @@ public class Inicio {
 				Trabajo[] trabajos=control.trabajos();
 				for(int i=0;i<trabajos.length;i++)
 				{
-					if(trabajos[i].tipo==ControladorImpl.MD5)
+					if(trabajos[i].borrado==false)
 					{
-						Object aoNuevo[]= {trabajos[i].id,"MD5","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
-						dtmModelo.addRow(aoNuevo);
-					}
-					else if(trabajos[i].tipo==ControladorImpl.SHA)
-					{
-						Object aoNuevo[]= {trabajos[i].id,"SHA","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
-						dtmModelo.addRow(aoNuevo);
-					}
-					else if(trabajos[i].tipo==ControladorImpl.RED)
-					{
-						Object aoNuevo[]= {trabajos[i].id,"Red",trabajos[i].cadena,trabajos[i].puerto,trabajos[i].usuario,"",trabajos[i].tam_maximo};
-						dtmModelo.addRow(aoNuevo);
+						if(trabajos[i].tipo==ControladorImpl.MD5)
+						{
+							Object aoNuevo[]= {trabajos[i].id,"MD5","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
+							dtmModelo.addRow(aoNuevo);
+						}
+						else if(trabajos[i].tipo==ControladorImpl.SHA)
+						{
+							Object aoNuevo[]= {trabajos[i].id,"SHA","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
+							dtmModelo.addRow(aoNuevo);
+						}
+						else if(trabajos[i].tipo==ControladorImpl.RED)
+						{
+							Object aoNuevo[]= {trabajos[i].id,"Red",trabajos[i].cadena,trabajos[i].puerto,trabajos[i].usuario,"",trabajos[i].tam_maximo};
+							dtmModelo.addRow(aoNuevo);
+						}
 					}
 				}
 				

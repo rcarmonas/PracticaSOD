@@ -1,6 +1,7 @@
 module clases {
 	struct Trabajo
 	{
+		boolean borrado;
 		unsigned long id;
 		unsigned long tipo;
 		string cadena;
