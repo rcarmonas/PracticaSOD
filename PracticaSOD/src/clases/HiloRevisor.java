@@ -24,9 +24,14 @@ public class HiloRevisor extends Thread {
 			for(int i=0;i<trabajos.size();i++)
 			{
 				Trabajo trab=controlador.getTrabajo(trabajos.get(i));
+				int aux=trab.id;
+				if(trab.borrado==true)
+				{
+					trabajos.remove(i);
+					JOptionPane.showMessageDialog(null, "Trabajo con ID "+aux+" ha sido borrado.");
+				}
 				if(trab.progress==ControladorImpl.MAX_PROGRESS)
 				{
-					int aux=trab.id;
 					String res=trab.resultado;
 					trabajos.remove(i);
 					controlador.borrarTrabajo(aux);
