@@ -28,10 +28,6 @@ public class HiloAtacante extends Thread {
 	
 	public void run()
 	{
-		/*String alfabeto="";
-		for(int i=StrManager.INICIO;i<=StrManager.FIN;i++)
-			alfabeto=alfabeto+(char)i;
-		char[] elementos = alfabeto.toCharArray();*/
 		while(activo)
 		{
 			//Inicialización de datos
@@ -79,25 +75,6 @@ public class HiloAtacante extends Thread {
 				probarCadenas(str);
 				str.deleteCharAt(str.length()-1);
 			}
-	}
-	/**
-	 * Función recursiva para probar todas las cadenas posibles
-	 * @param elementos
-	 * @param actual
-	 * @param cantidad
-	 * @deprecated Ha sido sustituida por probarCadenas
-	 */
-	@SuppressWarnings("unused")
-	private void generarCombinaciones(char[] elementos, String actual, int cantidad)
-	{
-			if(cantidad==0) {
-				probarCombinacion(actual);
-	        }
-	        else {
-	            for(int i=0; i<elementos.length; i++) {
-	                generarCombinaciones(elementos, actual+elementos[i],cantidad-1);
-	            }
-	        }
 	}
 	/**
 	 * Prueba la combinación actual para averiguar si es la que buscamos
