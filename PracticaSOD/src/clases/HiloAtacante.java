@@ -40,7 +40,6 @@ public class HiloAtacante extends Thread {
 			cad.append(trabajo.c);
 			//Comprueba todas las cadenas de forma recursiva:
 			probarCadenas(cad);
-			//generarCombinaciones(elementos,cad.toString(),trabajo.trabajo.tam_maximo-1);
 			//Comunica el fin de un trabajo:
 			ctrl.finTrabajo(trabajo.trabajo.id, resultado);
 		}
