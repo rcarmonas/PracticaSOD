@@ -1,8 +1,6 @@
 package clases;
 
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
 /**
  * Hilo de ejecución que se encarga de revisar si los
  * trabajos que ha generado el propio cliente han terminado y eliminarlos de
@@ -13,14 +11,17 @@ import javax.swing.JOptionPane;
 public class HiloRevisor extends Thread {
 
 	ArrayList<Integer> trabajos;
+	ArrayList<HiloAtacante> hilos;
 	Controlador controlador;
-	public HiloRevisor(ArrayList<Integer> t,Controlador c){
+	public HiloRevisor(ArrayList<HiloAtacante> h,ArrayList<Integer> t,Controlador c){
 		trabajos=t;
 		controlador=c;
+		hilos=h;
 	}
 	public void run(){
 		while(true)
 		{
+			//comprueba si los trabajos que ha creado el cliente se han borrado o han finalizado
 			for(int i=0;i<trabajos.size();i++)
 			{
 				Trabajo trab=controlador.getTrabajo(trabajos.get(i));
@@ -28,14 +29,26 @@ public class HiloRevisor extends Thread {
 				if(trab.borrado==true)
 				{
 					trabajos.remove(i);
-					JOptionPane.showMessageDialog(null, "Trabajo con ID "+aux+" ha sido borrado.");
+					HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" ha sido borrado");
+					hm.start();
 				}
 				if(trab.progress==ControladorImpl.MAX_PROGRESS)
 				{
 					String res=trab.resultado;
 					trabajos.remove(i);
 					controlador.borrarTrabajo(aux);
-					JOptionPane.showMessageDialog(null, "Trabajo con ID "+aux+" finalizado\nResultado: "+res);
+					HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" finalizado\nResultado: "+res);
+					hm.start();
+				}
+			}
+			//comprueba si el trabajo que ejecuta cada hilo se ha borrado
+			for(int i=0;i<hilos.size();i++)
+			{
+				int aux=hilos.get(i).trabajo.trabajo.id;
+				Trabajo trab=controlador.getTrabajo(aux);
+				if(trab.borrado==true)
+				{
+					hilos.get(i).interrumpir();
 				}
 			}
 			try {
@@ -47,3 +60,4 @@ public class HiloRevisor extends Thread {
 		}
 	}
 }
+

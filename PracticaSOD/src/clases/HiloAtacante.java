@@ -16,7 +16,7 @@ import java.net.Socket;
 public class HiloAtacante extends Thread {
 	private boolean activo;
 	private Controlador ctrl;
-	private Division trabajo;
+	public Division trabajo;
 	private boolean encontrado;
 	private String resultado;
 	
@@ -28,10 +28,10 @@ public class HiloAtacante extends Thread {
 	
 	public void run()
 	{
-		String alfabeto="";
+		/*String alfabeto="";
 		for(int i=StrManager.INICIO;i<=StrManager.FIN;i++)
 			alfabeto=alfabeto+(char)i;
-		char[] elementos = alfabeto.toCharArray();
+		char[] elementos = alfabeto.toCharArray();*/
 		while(activo)
 		{
 			//Inicialización de datos
@@ -59,6 +59,10 @@ public class HiloAtacante extends Thread {
 			ctrl.setDivision(trabajo);
 		this.activo = false;
 	}
+	public void interrumpir()
+	{
+		this.encontrado=true;
+	}
 	/**
 	 * Prueba de forma recursiva todas las cadenas posibles hasta encontrar
 	 * un resultado o terminar
@@ -68,7 +72,7 @@ public class HiloAtacante extends Thread {
 	{
 		probarCombinacion(str.toString());
 		
-		if(str.length()<=trabajo.trabajo.tam_maximo-1 && activo && !encontrado&&ctrl.getTrabajo(trabajo.trabajo.id).borrado==false)
+		if(str.length()<=trabajo.trabajo.tam_maximo-1 && activo && !encontrado)
 			for(char j=(char)StrManager.INICIO;j<=StrManager.FIN; j++)
 			{
 				str.append(j);
@@ -101,7 +105,7 @@ public class HiloAtacante extends Thread {
 	 */
 	private void probarCombinacion(String actual)
 	{
-		if(activo&&!encontrado&&ctrl.getTrabajo(trabajo.trabajo.id).borrado==false)
+		if(activo&&!encontrado)
 		{
 			String aux;
 			switch(trabajo.trabajo.tipo)
@@ -137,7 +141,6 @@ public class HiloAtacante extends Thread {
 						BufferedReader entrada=new BufferedReader(ir);
 						OutputStreamWriter or = new OutputStreamWriter(socket.getOutputStream());
 						BufferedWriter salida=new BufferedWriter(or);
-	
 						salida.write(cadena+actual+"\0");
 						salida.flush();
 	

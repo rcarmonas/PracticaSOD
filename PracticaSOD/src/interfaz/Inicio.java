@@ -40,7 +40,7 @@ public class Inicio {
 	private JTextField textField_4;
 	private JPanel panel;
 	private Controlador control;
-	private HiloAtacante[] hilos=null;
+	private ArrayList<HiloAtacante> hilos;
 	private HiloRevisor hiloRevisor;
 	private ArrayList<Integer> trabajosRevisar;
 	private JTextField textField_5;
@@ -89,8 +89,9 @@ public class Inicio {
 	 */
 	public Inicio(String[] args) {
 		trabajosRevisar=new ArrayList<Integer>();
+		hilos=new ArrayList<HiloAtacante>();
 		control=buscarControlador(args);
-		hiloRevisor=new HiloRevisor(trabajosRevisar,control);
+		hiloRevisor=new HiloRevisor(hilos,trabajosRevisar,control);
 		hiloRevisor.start();
 		Runtime.getRuntime().addShutdownHook(new Thread()
 		{
@@ -98,9 +99,9 @@ public class Inicio {
 		    public void run()
 		    {
 		    	if(hilos!=null)
-		    	for(int i=0;i<hilos.length;i++)
+		    	for(int i=0;i<hilos.size();i++)
 				{
-					hilos[i].disactive();
+					hilos.get(i).disactive();
 				}
 		    }
 		});
@@ -158,11 +159,10 @@ public class Inicio {
 		JButton btnUnirse = new JButton("Unirse");
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				hilos=new HiloAtacante[Integer.parseInt(textField_5.getText())];
 				for(int i=0;i<Integer.parseInt(textField_5.getText());i++)
 				{
-					hilos[i]=new HiloAtacante(control);
-					hilos[i].start();
+					hilos.add(new HiloAtacante(control));
+					hilos.get(i).start();
 				}
 				CardLayout cl = (CardLayout)(Controlador.getLayout());
 			    cl.show(Controlador, "name_4475524850557");
@@ -178,11 +178,12 @@ public class Inicio {
 		JButton btnParar = new JButton("Salir");
 		btnParar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				for(int i=0;i<hilos.length;i++)
+				int len=hilos.size();
+				for(int i=len-1;i>=0;i--)
 				{
-					hilos[i].disactive();
+					hilos.get(i).disactive();
+					hilos.remove(i);
 				}
-				hilos=null;
 				CardLayout cl = (CardLayout)(Controlador.getLayout());
 			    cl.show(Controlador, "name_4528748878770");
 			}
@@ -369,7 +370,7 @@ public class Inicio {
 			public void actionPerformed(ActionEvent arg0) {
 				CardLayout cl = (CardLayout)(panel.getLayout());
 			    cl.show(panel, "name_7992336414471");
-			    if(hilos!=null)
+			    if(hilos.size()>0)
 			    {
 			    	cl = (CardLayout)(Controlador.getLayout());
 				    cl.show(Controlador, "name_4475524850557");
