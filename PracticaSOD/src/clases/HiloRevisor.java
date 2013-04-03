@@ -44,17 +44,20 @@ public class HiloRevisor extends Thread {
 			//comprueba si el trabajo que ejecuta cada hilo se ha borrado
 			for(int i=0;i<hilos.size();i++)
 			{
-				int aux=hilos.get(i).trabajo.trabajo.id;
-				Trabajo trab=controlador.getTrabajo(aux);
-				if(trab.borrado==true)
+				Division t = hilos.get(i).trabajo;
+				if(t!=null)
 				{
-					hilos.get(i).interrumpir();
+					int aux = t.trabajo.id;
+					Trabajo trab=controlador.getTrabajo(aux);
+					if(trab.borrado==true)
+					{
+						hilos.get(i).interrumpir();
+					}
 				}
 			}
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
