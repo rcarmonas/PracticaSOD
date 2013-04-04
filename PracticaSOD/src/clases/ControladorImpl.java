@@ -119,7 +119,6 @@ public class ControladorImpl extends ControladorPOA{
 		            queue.remove(em);
 		        }   
 		    }
-		  //trabajos.set(id, null);
 		    trabajos.get(id).borrado=true;
 	}
 
@@ -128,5 +127,11 @@ public class ControladorImpl extends ControladorPOA{
 		try{
 		return trabajos.get(id);
 		}catch(Exception e){return null;}
+	}
+
+	@Override
+	public synchronized void sumarProgreso(int id, int progress) {
+		trabajos.get(id).progress=trabajos.get(id).progress+progress;
+		
 	}
 }

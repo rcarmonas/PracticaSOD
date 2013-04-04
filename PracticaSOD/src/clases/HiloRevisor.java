@@ -1,5 +1,6 @@
 package clases;
 
+import interfaz.Inicio;
 import java.util.ArrayList;
 /**
  * Hilo de ejecución que se encarga de revisar si los
@@ -10,38 +11,46 @@ import java.util.ArrayList;
  */
 public class HiloRevisor extends Thread {
 
-	ArrayList<Integer> trabajos;
+	ArrayList<Integer> trabajosPropios;
 	ArrayList<HiloAtacante> hilos;
 	Controlador controlador;
-	public HiloRevisor(ArrayList<HiloAtacante> h,ArrayList<Integer> t,Controlador c){
-		trabajos=t;
+	Inicio inicio;
+	
+	public HiloRevisor(Inicio i,ArrayList<HiloAtacante> h,ArrayList<Integer> t,Controlador c){
+		trabajosPropios=t;
 		controlador=c;
 		hilos=h;
+		inicio=i;
 	}
 	public void run(){
 		while(true)
 		{
-			//comprueba si los trabajos que ha creado el cliente se han borrado o han finalizado
-			for(int i=0;i<trabajos.size();i++)
+			//actualiza la tabla con los trabajos
+			Trabajo [] vectorTrabajos=controlador.trabajos();
+			inicio.actualizarTabla(vectorTrabajos);
+			
+			//comprueba si los trabajos que ha creado el cliente han terminado o han sido borrados
+			for(int i=0;i<vectorTrabajos.length;i++)
 			{
-				Trabajo trab=controlador.getTrabajo(trabajos.get(i));
-				int aux=trab.id;
-				if(trab.borrado==true)
+				if(trabajosPropios.contains((Integer)vectorTrabajos[i].id))//si lo ha creado este cliente
 				{
-					trabajos.remove(i);
-					HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" ha sido borrado");
-					hm.start();
-				}
-				if(trab.progress==ControladorImpl.MAX_PROGRESS)
-				{
-					String res=trab.resultado;
-					trabajos.remove(i);
-					controlador.borrarTrabajo(aux);
-					HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" finalizado\nResultado: "+res);
-					hm.start();
+					int aux=vectorTrabajos[i].id;
+					if(vectorTrabajos[i].borrado==true)
+					{
+						trabajosPropios.remove((Integer)aux);
+						HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" ha sido borrado");
+						hm.start();
+					}
+					if(vectorTrabajos[i].progress==ControladorImpl.MAX_PROGRESS)
+					{
+						trabajosPropios.remove((Integer)aux);
+						controlador.borrarTrabajo(aux);
+						HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" finalizado\nResultado: "+vectorTrabajos[i].resultado);
+						hm.start();
+					}
 				}
 			}
-			//comprueba si el trabajo que ejecuta cada hilo se ha borrado
+			//comprueba si el trabajo que ejecuta cada hilo se ha borrado. en ese caso interrumpe los hilos
 			for(int i=0;i<hilos.size();i++)
 			{
 				Division t = hilos.get(i).trabajo;

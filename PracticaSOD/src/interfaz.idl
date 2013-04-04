@@ -26,6 +26,7 @@ module clases {
 		void finTrabajo(in unsigned long id, in string clave);
 		void borrarTrabajo(in unsigned long id);
 		Division getDivision();
+		void sumarProgreso(in unsigned long id,in unsigned long progress);
 		Trabajo getTrabajo(in unsigned long id);
 		boolean setDivision(in Division t);
 		void dividirTrabajo(in Trabajo t);

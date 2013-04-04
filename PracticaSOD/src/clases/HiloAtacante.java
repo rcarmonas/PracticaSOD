@@ -51,7 +51,10 @@ public class HiloAtacante extends Thread {
 	public void disactive()
 	{
 		if(this.trabajo!=null && !this.encontrado)
+		{
 			ctrl.setDivision(trabajo);
+			ctrl.sumarProgreso(trabajo.trabajo.id,-1);
+		}
 		this.activo = false;
 	}
 	public void interrumpir()

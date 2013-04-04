@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -35,8 +36,8 @@ public class Inicio {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_3;
-	private DefaultTableModel dtmModelo;
-	private JTable jtTabla;
+	public DefaultTableModel dtmModelo;
+	public JTable jtTabla;
 	private JTextField textField_4;
 	private JPanel panel;
 	private Controlador control;
@@ -61,6 +62,33 @@ public class Inicio {
 		});
 	}
 
+	
+	/**
+	 * Create the application.
+	 */
+	public Inicio(String[] args) {
+		trabajosRevisar=new ArrayList<Integer>();
+		hilos=new ArrayList<HiloAtacante>();
+		control=buscarControlador(args);
+
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
+		    @Override
+		    public void run()
+		    {
+		    	for(int i=0;i<hilos.size();i++)
+				{
+					hilos.get(i).disactive();
+				}
+		    	for(int i=0;i<trabajosRevisar.size();i++)
+		    	{
+		    		control.borrarTrabajo(trabajosRevisar.get(i));
+		    	}
+		    }
+		});
+		initialize();
+		crearHiloRevisor();
+	}
 	public static Controlador buscarControlador(String[] args)
 	{
 		try{
@@ -84,30 +112,53 @@ public class Inicio {
 		}
 		
 	}
-	/**
-	 * Create the application.
-	 */
-	public Inicio(String[] args) {
-		trabajosRevisar=new ArrayList<Integer>();
-		hilos=new ArrayList<HiloAtacante>();
-		control=buscarControlador(args);
-		hiloRevisor=new HiloRevisor(hilos,trabajosRevisar,control);
+	public void crearHiloRevisor(){
+		hiloRevisor=new HiloRevisor(this,hilos,trabajosRevisar,control);
 		hiloRevisor.start();
-		Runtime.getRuntime().addShutdownHook(new Thread()
-		{
-		    @Override
-		    public void run()
-		    {
-		    	if(hilos!=null)
-		    	for(int i=0;i<hilos.size();i++)
-				{
-					hilos.get(i).disactive();
-				}
-		    }
-		});
-		initialize();
 	}
-
+	public void actualizarTabla(Trabajo[] trabajos){
+		//guardo la fila que estuviera seleccionada
+		int seleccionada=jtTabla.getSelectedRow();
+		int id=-1;
+		if(seleccionada!=-1)
+			id=Integer.parseInt(jtTabla.getValueAt(seleccionada, 0).toString());
+		
+		//borro todas las filas
+		int nrows=dtmModelo.getRowCount();
+		for(int i=nrows-1;i>=0;i--)
+		{
+			dtmModelo.removeRow(i);
+		}
+			
+		//cargo las nuevas filas
+		for(int i=0;i<trabajos.length;i++)
+		{
+			if(trabajos[i].borrado==false)
+			{
+				int progreso=(int)(trabajos[i].progress*100.0/ControladorImpl.MAX_PROGRESS);
+				if(trabajos[i].tipo==ControladorImpl.MD5)
+				{
+					Object aoNuevo[]= {trabajos[i].id,"MD5","","","",trabajos[i].cadena,trabajos[i].tam_maximo,progreso+" %"};
+					dtmModelo.addRow(aoNuevo);
+				}
+				else if(trabajos[i].tipo==ControladorImpl.SHA)
+				{
+					Object aoNuevo[]= {trabajos[i].id,"SHA","","","",trabajos[i].cadena,trabajos[i].tam_maximo,progreso+" %"};
+					dtmModelo.addRow(aoNuevo);
+				}
+				else if(trabajos[i].tipo==ControladorImpl.RED)
+				{
+					Object aoNuevo[]= {trabajos[i].id,"Red",trabajos[i].cadena,trabajos[i].puerto,trabajos[i].usuario,"",trabajos[i].tam_maximo,progreso+" %"};
+					dtmModelo.addRow(aoNuevo);
+				}
+				
+				if(id==(trabajos[i].id))//si estaba seleccionada, la selecciono
+				{
+					jtTabla.setRowSelectionInterval(dtmModelo.getRowCount()-1,dtmModelo.getRowCount()-1);
+				}
+			}
+		}
+	}
 	/*
 	 * Initialize the contents of the frame.
 	 */
@@ -159,13 +210,23 @@ public class Inicio {
 		JButton btnUnirse = new JButton("Unirse");
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				for(int i=0;i<Integer.parseInt(textField_5.getText());i++)
+				if(textField_5.getText().length()==0)
 				{
-					hilos.add(new HiloAtacante(control));
-					hilos.get(i).start();
+					JOptionPane.showMessageDialog(null, "Debe indicar el número de hilos");
 				}
-				CardLayout cl = (CardLayout)(Controlador.getLayout());
-			    cl.show(Controlador, "name_4475524850557");
+				else{
+					try{
+					for(int i=0;i<Integer.parseInt(textField_5.getText());i++)
+					{
+						hilos.add(new HiloAtacante(control));
+						hilos.get(i).start();
+					}
+					CardLayout cl = (CardLayout)(Controlador.getLayout());
+				    cl.show(Controlador, "name_4475524850557");
+					}catch(NumberFormatException e){
+						JOptionPane.showMessageDialog(null, "El formato es incorrecto");
+					}
+				}
 			}
 		});
 		Unirse.add(btnUnirse);
@@ -321,27 +382,33 @@ public class Inicio {
 		dtmModelo.addColumn("Usuario");
 		dtmModelo.addColumn("Cadena");
 		dtmModelo.addColumn("Longitud");
+		dtmModelo.addColumn("Progreso");
 		
 		//reservo la tabla
 		jtTabla = new JTable(dtmModelo);
+		jtTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		//Defino el ancho de las columnas
 		TableColumn tcColumna;
+		tcColumna=jtTabla.getColumn("ID");
+		tcColumna.setPreferredWidth(30);
 		tcColumna=jtTabla.getColumn("Cadena");
 		tcColumna.setPreferredWidth(300);
 		tcColumna=jtTabla.getColumn("Tipo");
-		tcColumna.setPreferredWidth(40);
+		tcColumna.setPreferredWidth(30);
 		tcColumna=jtTabla.getColumn("Puerto");
-		tcColumna.setPreferredWidth(70);
+		tcColumna.setPreferredWidth(50);
 		tcColumna=jtTabla.getColumn("Longitud");
-		tcColumna.setPreferredWidth(60);
+		tcColumna.setPreferredWidth(40);
+		tcColumna=jtTabla.getColumn("Progreso");
+		tcColumna.setPreferredWidth(40);
 		
 		//creo panel con barra de desplazamiento que contiene a table
 		JScrollPane jspScrollpane = new JScrollPane(jtTabla);
 		//añado el panel a la ventana
 		VerAtaques.add(jspScrollpane,BorderLayout.CENTER);
 		
-		JButton btnBorrarSelecciondos = new JButton("Borrar Selecciondos");
+		JButton btnBorrarSelecciondos = new JButton("Borrar Seleccionado");
 		btnBorrarSelecciondos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int [] aiSeleccionadas=jtTabla.getSelectedRows();
@@ -380,7 +447,6 @@ public class Inicio {
 			    	cl = (CardLayout)(Controlador.getLayout());
 				    cl.show(Controlador, "name_4528748878770");
 			    }
-			    
 			}
 		});
 		mnControlador.add(mntmIniciarControlador);
@@ -400,39 +466,11 @@ public class Inicio {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Ver Ataques");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int nrows=dtmModelo.getRowCount();
-				for(int i=nrows-1;i>=0;i--)
-				{
-					dtmModelo.removeRow(i);
-				}
-					
-				Trabajo[] trabajos=control.trabajos();
-				for(int i=0;i<trabajos.length;i++)
-				{
-					if(trabajos[i].borrado==false)
-					{
-						if(trabajos[i].tipo==ControladorImpl.MD5)
-						{
-							Object aoNuevo[]= {trabajos[i].id,"MD5","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
-							dtmModelo.addRow(aoNuevo);
-						}
-						else if(trabajos[i].tipo==ControladorImpl.SHA)
-						{
-							Object aoNuevo[]= {trabajos[i].id,"SHA","","","",trabajos[i].cadena,trabajos[i].tam_maximo};
-							dtmModelo.addRow(aoNuevo);
-						}
-						else if(trabajos[i].tipo==ControladorImpl.RED)
-						{
-							Object aoNuevo[]= {trabajos[i].id,"Red",trabajos[i].cadena,trabajos[i].puerto,trabajos[i].usuario,"",trabajos[i].tam_maximo};
-							dtmModelo.addRow(aoNuevo);
-						}
-					}
-				}
 				
 				CardLayout cl = (CardLayout)(panel.getLayout());
 			    cl.show(panel, "name_3410875170670");
 			}
 		});
 		mnCliente.add(mntmNewMenuItem);
-	}
+	}	
 }
