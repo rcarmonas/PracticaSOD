@@ -128,10 +128,4 @@ public class ControladorImpl extends ControladorPOA{
 		return trabajos.get(id);
 		}catch(Exception e){return null;}
 	}
-
-	@Override
-	public synchronized void sumarProgreso(int id, int progress) {
-		trabajos.get(id).progress=trabajos.get(id).progress+progress;
-		
-	}
 }

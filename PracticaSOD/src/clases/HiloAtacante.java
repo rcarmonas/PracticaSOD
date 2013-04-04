@@ -46,14 +46,13 @@ public class HiloAtacante extends Thread {
 	}
 	
 	/**
-	 * Para el hilo e informa al controlador de que el trabajo no se ha terminado
+	 * Para el hilo y devuelve la división que estaba procesando a la cola
 	 */
 	public void disactive()
 	{
 		if(this.trabajo!=null && !this.encontrado)
 		{
 			ctrl.setDivision(trabajo);
-			ctrl.sumarProgreso(trabajo.trabajo.id,-1);
 		}
 		this.activo = false;
 	}
