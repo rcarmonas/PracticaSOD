@@ -411,14 +411,13 @@ public class Inicio {
 		JButton btnBorrarSelecciondos = new JButton("Borrar Seleccionado");
 		btnBorrarSelecciondos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int [] aiSeleccionadas=jtTabla.getSelectedRows();
-				int iLongitud=aiSeleccionadas.length;
-				for(int i=iLongitud-1;i>=0;i--)
-				{
-					int id=Integer.parseInt(jtTabla.getValueAt(aiSeleccionadas[i], 0).toString());
-					control.borrarTrabajo(id);
-					dtmModelo.removeRow(aiSeleccionadas[i]);
-				}
+			int aiSeleccionada=jtTabla.getSelectedRow();
+			if(aiSeleccionada!=-1)
+			{
+				int id=Integer.parseInt(jtTabla.getValueAt(aiSeleccionada, 0).toString());
+				dtmModelo.removeRow(aiSeleccionada);
+				control.borrarTrabajo(id);
+			}
 			}
 		});
 		VerAtaques.add(btnBorrarSelecciondos, BorderLayout.SOUTH);

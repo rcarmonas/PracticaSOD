@@ -30,12 +30,12 @@ public class HiloAtacante extends Thread {
 	{
 		while(activo)
 		{
+			//Obtengo un trabajo:
+			trabajo = ctrl.getDivision();
 			//Inicialización de datos
 			this.encontrado = false;
 			this.resultado = "";
 			StringBuffer cad = new StringBuffer();
-			//Obtengo un trabajo:
-			trabajo = ctrl.getDivision();
 			//Añade la primera letra:
 			cad.append(trabajo.c);
 			//Comprueba todas las cadenas de forma recursiva:
