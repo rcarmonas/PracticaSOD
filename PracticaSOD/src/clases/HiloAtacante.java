@@ -14,10 +14,10 @@ import java.net.Socket;
  * @author José Manuel Herruzo Ruiz
  */
 public class HiloAtacante extends Thread {
-	private boolean activo;
+	private boolean activo;//indica que se pare y se elimine
 	private Controlador ctrl;
 	public Division trabajo;
-	private boolean encontrado;
+	private boolean encontrado;//indica que se pare y coja un nuevo trabajo de la cola
 	private String resultado;
 	
 	public HiloAtacante(Controlador ctrl)
@@ -41,7 +41,9 @@ public class HiloAtacante extends Thread {
 			//Comprueba todas las cadenas de forma recursiva:
 			probarCadenas(cad);
 			//Comunica el fin de un trabajo:
-			ctrl.finTrabajo(trabajo.trabajo.id, resultado);
+			if(activo)
+				ctrl.finTrabajo(trabajo.trabajo.id, resultado);
+			trabajo=null;
 		}
 	}
 	
