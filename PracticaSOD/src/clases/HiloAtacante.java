@@ -14,10 +14,10 @@ import java.net.Socket;
  * @author José Manuel Herruzo Ruiz
  */
 public class HiloAtacante extends Thread {
-	private boolean activo;//indica que se pare y se elimine
+	private boolean activo;//indica que se pare y se elimine (utilizado cuando se quitan hilos)
 	private Controlador ctrl;
 	public Division trabajo;
-	private boolean encontrado;//indica que se pare y coja un nuevo trabajo de la cola
+	private boolean encontrado;//indica que se pare y coja un nuevo trabajo de la cola (utilizado cuando se borran trabajos o se encuentra la solucion)
 	private String resultado;
 	
 	public HiloAtacante(Controlador ctrl)
@@ -32,6 +32,11 @@ public class HiloAtacante extends Thread {
 		{
 			//Obtengo un trabajo:
 			trabajo = ctrl.getDivision();
+			if(!activo)
+			{
+				this.disactive();//por si se desactivo mientras esperaba en la cola, devuelve el trabajo
+				break;
+			}
 			//Inicialización de datos
 			this.encontrado = false;
 			this.resultado = "";
