@@ -52,7 +52,7 @@ public class HiloAtacante extends Thread {
 	 */
 	public void disactive()
 	{
-		if(this.trabajo!=null && !this.encontrado)
+		if(this.trabajo!=null)
 		{
 			ctrl.setDivision(trabajo);
 		}
