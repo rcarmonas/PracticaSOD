@@ -34,7 +34,7 @@ public class HiloAtacante extends Thread {
 			trabajo = ctrl.getDivision();
 			if(!activo)
 			{
-				this.disactive();//por si se desactivo mientras esperaba en la cola, devuelve el trabajo
+				ctrl.setDivision(trabajo);//si se desactivo mientras esperaba en la cola, devuelve el trabajo
 				break;
 			}
 			//Inicialización de datos
@@ -45,9 +45,10 @@ public class HiloAtacante extends Thread {
 			cad.append(trabajo.c);
 			//Comprueba todas las cadenas de forma recursiva:
 			probarCadenas(cad);
-			//Comunica el fin de un trabajo:
-			if(activo)
-				ctrl.finTrabajo(trabajo.trabajo.id, resultado);
+			if(activo)//si esta activo
+				ctrl.finTrabajo(trabajo.trabajo.id, resultado);//comunica el fin del trabajo
+			else//si se ha desactivado
+				ctrl.setDivision(trabajo);//devuelve la division a la cola
 			trabajo=null;
 		}
 	}
@@ -57,10 +58,6 @@ public class HiloAtacante extends Thread {
 	 */
 	public void disactive()
 	{
-		if(this.trabajo!=null)
-		{
-			ctrl.setDivision(trabajo);
-		}
 		this.activo = false;
 	}
 	public void interrumpir()
