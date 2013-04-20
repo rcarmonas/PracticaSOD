@@ -61,7 +61,6 @@ public class Inicio {
 			}
 		});
 	}
-
 	
 	/**
 	 * Create the application.
@@ -114,51 +113,9 @@ public class Inicio {
 	}
 	public void crearHiloRevisor(){
 		hiloRevisor=new HiloRevisor(this,hilos,trabajosRevisar,control);
-		hiloRevisor.start();
+		hiloRevisor.execute();
 	}
-	public void actualizarTabla(Trabajo[] trabajos){
-		//guardo la fila que estuviera seleccionada
-		int seleccionada=jtTabla.getSelectedRow();
-		int id=-1;
-		if(seleccionada!=-1)
-			id=Integer.parseInt(jtTabla.getValueAt(seleccionada, 0).toString());
-		
-		//borro todas las filas
-		int nrows=dtmModelo.getRowCount();
-		for(int i=nrows-1;i>=0;i--)
-		{
-			dtmModelo.removeRow(i);
-		}
-			
-		//cargo las nuevas filas
-		for(int i=0;i<trabajos.length;i++)
-		{
-			if(trabajos[i].borrado==false)
-			{
-				int progreso=(int)(trabajos[i].progress*100.0/ControladorImpl.MAX_PROGRESS);
-				if(trabajos[i].tipo==ControladorImpl.MD5)
-				{
-					Object aoNuevo[]= {trabajos[i].id,"MD5","","","",trabajos[i].cadena,trabajos[i].tam_maximo,progreso+" %"};
-					dtmModelo.addRow(aoNuevo);
-				}
-				else if(trabajos[i].tipo==ControladorImpl.SHA)
-				{
-					Object aoNuevo[]= {trabajos[i].id,"SHA","","","",trabajos[i].cadena,trabajos[i].tam_maximo,progreso+" %"};
-					dtmModelo.addRow(aoNuevo);
-				}
-				else if(trabajos[i].tipo==ControladorImpl.RED)
-				{
-					Object aoNuevo[]= {trabajos[i].id,"Red",trabajos[i].cadena,trabajos[i].puerto,trabajos[i].usuario,"",trabajos[i].tam_maximo,progreso+" %"};
-					dtmModelo.addRow(aoNuevo);
-				}
-				
-				if(id==(trabajos[i].id))//si estaba seleccionada, la selecciono
-				{
-					jtTabla.setRowSelectionInterval(dtmModelo.getRowCount()-1,dtmModelo.getRowCount()-1);
-				}
-			}
-		}
-	}
+	
 	/*
 	 * Initialize the contents of the frame.
 	 */
@@ -386,12 +343,13 @@ public class Inicio {
 		
 		//reservo la tabla
 		jtTabla = new JTable(dtmModelo);
+		jtTabla.setDefaultRenderer(Object.class,new IconCellRenderer());
 		jtTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		//Defino el ancho de las columnas
 		TableColumn tcColumna;
 		tcColumna=jtTabla.getColumn("ID");
-		tcColumna.setPreferredWidth(30);
+		tcColumna.setPreferredWidth(20);
 		tcColumna=jtTabla.getColumn("Cadena");
 		tcColumna.setPreferredWidth(300);
 		tcColumna=jtTabla.getColumn("Tipo");
@@ -401,7 +359,7 @@ public class Inicio {
 		tcColumna=jtTabla.getColumn("Longitud");
 		tcColumna.setPreferredWidth(40);
 		tcColumna=jtTabla.getColumn("Progreso");
-		tcColumna.setPreferredWidth(40);
+		tcColumna.setPreferredWidth(100);
 		
 		//creo panel con barra de desplazamiento que contiene a table
 		JScrollPane jspScrollpane = new JScrollPane(jtTabla);
