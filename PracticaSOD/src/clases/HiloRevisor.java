@@ -130,6 +130,13 @@ public class HiloRevisor extends SwingWorker<Void,Object[]> {
 					Object aoNuevo[]= {trabajos[i].id,"Red",trabajos[i].cadena,trabajos[i].puerto,trabajos[i].usuario,"",trabajos[i].tam_maximo,p};
 					publish(aoNuevo);
 				}
+				else if(trabajos[i].tipo==ControladorImpl.RSA)
+				{
+					//TODO mostrar en el vector la información del trabajo RSA
+					//he usado de momento el atributo cadena y usuario de la clase Trabajo pa meter las cadenas de RSA
+					Object aoNuevo[]= {trabajos[i].id,"RSA",trabajos[i].cadena,"",trabajos[i].usuario,"","",p};
+					publish(aoNuevo);
+				}
 			}
 		}
     }

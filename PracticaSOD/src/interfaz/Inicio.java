@@ -45,6 +45,8 @@ public class Inicio {
 	private HiloRevisor hiloRevisor;
 	private ArrayList<Integer> trabajosRevisar;
 	private JTextField textField_5;
+	private JTextField textField_6;
+	private JTextField textField_7;
 
 	/**
 	 * Launch the application.
@@ -214,7 +216,7 @@ public class Inicio {
 		panel.add(NuevoAtaque, "name_5999225250373");
 		NuevoAtaque.setLayout(null);
 		
-		JLabel lblLongitudMximaDe = new JLabel("Longitud máxima de la clave");
+		final JLabel lblLongitudMximaDe = new JLabel("Longitud máxima de la clave");
 		lblLongitudMximaDe.setBounds(293, 250, 199, 15);
 		NuevoAtaque.add(lblLongitudMximaDe);
 		
@@ -267,39 +269,86 @@ public class Inicio {
 			textField_4 = new JTextField();
 			MD5.add(textField_4);
 			textField_4.setColumns(20);
+			
+			JPanel RSA = new JPanel();
+			Cambiar.add(RSA, "name_2504083831003");
+			
+			JLabel lblCadena_1 = new JLabel("Cadena 1");
+			RSA.add(lblCadena_1);
+			
+			textField_6 = new JTextField();
+			textField_6.setColumns(25);
+			RSA.add(textField_6);
+			
+			JLabel lblCadena_2 = new JLabel("Cadena 2");
+			RSA.add(lblCadena_2);
+			
+			textField_7 = new JTextField();
+			textField_7.setColumns(25);
+			RSA.add(textField_7);
 		
 			
 		JLabel lblTipo = new JLabel("Tipo");
 		lblTipo.setBounds(279, 107, 45, 15);
 		NuevoAtaque.add(lblTipo);
-
+		
+		final JComboBox<Object> comboBox2 = new JComboBox<Object>();
+		comboBox2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(comboBox2.getSelectedIndex()==0){
+					textField_2.setVisible(true);
+					lblLongitudMximaDe.setVisible(true);
+				}
+				else{
+					textField_2.setVisible(false);
+					lblLongitudMximaDe.setVisible(false);
+				}
+			}
+		});
+		comboBox2.setModel(new DefaultComboBoxModel<Object>(new String[] {"Sin diccionario","Diccionario", "Lista de palabras", "Nombres"}));
+		comboBox2.setBounds(423, 102, 150, 24);
+		NuevoAtaque.add(comboBox2);
+		
 		final JComboBox<Object> comboBox = new JComboBox<Object>();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(comboBox.getSelectedItem()=="Red")
 				{
-					textField_4.setText("");
-					CardLayout cl = (CardLayout)(Cambiar.getLayout());
-				    cl.show(Cambiar, "name_3509705215789");
-				}
-				else
-				{
 					textField.setText("");
 					textField_1.setText("");
 					textField_3.setText("");
+					textField_2.setVisible(true);
+					comboBox2.setVisible(true);
+					lblLongitudMximaDe.setVisible(true);
+					CardLayout cl = (CardLayout)(Cambiar.getLayout());
+				    cl.show(Cambiar, "name_3509705215789");
+				}
+				else if(comboBox.getSelectedItem()=="RSA")
+				{
+					textField_6.setText("");
+					textField_7.setText("");
+					textField_2.setVisible(false);
+					comboBox2.setVisible(false);
+					lblLongitudMximaDe.setVisible(false);
+					CardLayout cl = (CardLayout)(Cambiar.getLayout());
+				    cl.show(Cambiar, "name_2504083831003");
+				}
+				else
+				{
+					textField_4.setText("");
+					textField_2.setVisible(true);
+					comboBox2.setVisible(true);
+					lblLongitudMximaDe.setVisible(true);
 					CardLayout cl = (CardLayout)(Cambiar.getLayout());
 				    cl.show(Cambiar, "name_3509728720973");
 				}
 			}
 		});
-		comboBox.setModel(new DefaultComboBoxModel<Object>(new String[] {"Red", "MD5", "SHA"}));
+		comboBox.setModel(new DefaultComboBoxModel<Object>(new String[] {"Red", "MD5", "SHA", "RSA"}));
 		comboBox.setBounds(323, 102, 70, 24);
 		NuevoAtaque.add(comboBox);
 		
-		final JComboBox<Object> comboBox2 = new JComboBox<Object>();
-		comboBox2.setModel(new DefaultComboBoxModel<Object>(new String[] {"Sin diccionario","Diccionario", "Lista de palabras", "Nombres"}));
-		comboBox2.setBounds(423, 102, 150, 24);
-		NuevoAtaque.add(comboBox2);
+		
 		
 		JButton btnIniciarAtaque = new JButton("Añadir ataque");
 		btnIniciarAtaque.setBounds(389, 306, 158, 25);
@@ -307,17 +356,29 @@ public class Inicio {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					Trabajo aux=new Trabajo();
+					int longitud=0;
+					if(textField_2.isVisible())
+					{
+						longitud=Integer.parseInt(textField_2.getText());
+					}
 					 if(comboBox.getSelectedItem().equals("MD5"))
 					 {
-						 aux=control.crearMD5(textField_4.getText(),Integer.parseInt(textField_2.getText()),comboBox2.getSelectedIndex());
+						 aux=control.crearMD5(textField_4.getText(),longitud,comboBox2.getSelectedIndex());
 					 }
 					 else if(comboBox.getSelectedItem().equals("SHA"))
 					 {
-						 aux=control.crearSHA(textField_4.getText(), Integer.parseInt(textField_2.getText()),comboBox2.getSelectedIndex());
+						 aux=control.crearSHA(textField_4.getText(),longitud,comboBox2.getSelectedIndex());
 					 }
 					 else if(comboBox.getSelectedItem().equals("Red"))
 					 {
-						 aux=control.crearRed(textField.getText(), Integer.parseInt(textField_1.getText()), textField_3.getText(), Integer.parseInt(textField_2.getText()),comboBox2.getSelectedIndex());
+						 aux=control.crearRed(textField.getText(), Integer.parseInt(textField_1.getText()), textField_3.getText(), longitud,comboBox2.getSelectedIndex());
+					 }
+					 else if(comboBox.getSelectedItem().equals("RSA"))
+					 {
+						 //TODO Crear el trabajo rsa.
+						 //textField_6.getText()->cadena 1
+						//textField_7.getText()->cadena 2
+						//aux=control.crearRSA(textField_6.getText(),textField_7.getText());
 					 }
 					 trabajosRevisar.add(aux.id);
 					 
