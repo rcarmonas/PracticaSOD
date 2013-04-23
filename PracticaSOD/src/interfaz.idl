@@ -4,6 +4,7 @@ module clases {
 		boolean borrado;
 		unsigned long id;
 		unsigned long tipo;
+		unsigned long diccionario;
 		string cadena;
 		unsigned long puerto;
 		string usuario;
@@ -29,8 +30,8 @@ module clases {
 		Trabajo getTrabajo(in unsigned long id);
 		boolean setDivision(in Division t);
 		void dividirTrabajo(in Trabajo t);
-		Trabajo crearMD5(in string cadena, in unsigned long tam_maximo);
-		Trabajo crearSHA(in string cadena, in unsigned long tam_maximo);
-		Trabajo crearRed(in string cadena, in unsigned long puerto, in string usuario, in unsigned long tam_maximo);
+		Trabajo crearMD5(in string cadena, in unsigned long tam_maximo, in unsigned long dic);
+		Trabajo crearSHA(in string cadena, in unsigned long tam_maximo, in unsigned long dic);
+		Trabajo crearRed(in string cadena, in unsigned long puerto, in string usuario, in unsigned long tam_maximo, in unsigned long dic);
 	};
 };

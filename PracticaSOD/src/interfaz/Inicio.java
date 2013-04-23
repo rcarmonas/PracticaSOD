@@ -296,6 +296,11 @@ public class Inicio {
 		comboBox.setBounds(323, 102, 70, 24);
 		NuevoAtaque.add(comboBox);
 		
+		final JComboBox<Object> comboBox2 = new JComboBox<Object>();
+		comboBox2.setModel(new DefaultComboBoxModel<Object>(new String[] {"Sin diccionario","Diccionario", "Lista de palabras", "Nombres"}));
+		comboBox2.setBounds(423, 102, 150, 24);
+		NuevoAtaque.add(comboBox2);
+		
 		JButton btnIniciarAtaque = new JButton("Añadir ataque");
 		btnIniciarAtaque.setBounds(389, 306, 158, 25);
 		btnIniciarAtaque.addActionListener(new ActionListener() {
@@ -304,15 +309,15 @@ public class Inicio {
 					Trabajo aux=new Trabajo();
 					 if(comboBox.getSelectedItem().equals("MD5"))
 					 {
-						 aux=control.crearMD5(textField_4.getText(),Integer.parseInt(textField_2.getText()));
+						 aux=control.crearMD5(textField_4.getText(),Integer.parseInt(textField_2.getText()),comboBox2.getSelectedIndex());
 					 }
 					 else if(comboBox.getSelectedItem().equals("SHA"))
 					 {
-						 aux=control.crearSHA(textField_4.getText(), Integer.parseInt(textField_2.getText()));
+						 aux=control.crearSHA(textField_4.getText(), Integer.parseInt(textField_2.getText()),comboBox2.getSelectedIndex());
 					 }
 					 else if(comboBox.getSelectedItem().equals("Red"))
 					 {
-						 aux=control.crearRed(textField.getText(), Integer.parseInt(textField_1.getText()), textField_3.getText(), Integer.parseInt(textField_2.getText()));
+						 aux=control.crearRed(textField.getText(), Integer.parseInt(textField_1.getText()), textField_3.getText(), Integer.parseInt(textField_2.getText()),comboBox2.getSelectedIndex());
 					 }
 					 trabajosRevisar.add(aux.id);
 					 

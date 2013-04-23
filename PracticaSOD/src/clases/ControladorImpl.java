@@ -6,9 +6,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class ControladorImpl extends ControladorPOA{
 	public static int MAX_PROGRESS = StrManager.FIN - StrManager.INICIO;
+	public static int MAX_PROGRESS_dic = 10;
+	public static int MAX_PROGRESS_rsa = 256;
 	public static final int MD5 = 0;
 	public static final int SHA = 1;
 	public static final int RED = 2;
+	public static final int RSA = 3;
 	public LinkedBlockingQueue<Division> queue;
 	public ArrayList<Trabajo> trabajos;
 	
@@ -27,7 +30,9 @@ public class ControladorImpl extends ControladorPOA{
 			//Procesar contraseña obtenida
 			trabajos.get(id).resultado=clave;
 		}
-		else if(trabajos.get(id).progress<MAX_PROGRESS)//Aumento el progreso...
+		else if(trabajos.get(id).diccionario==0 && trabajos.get(id).progress<MAX_PROGRESS)//Aumento el progreso...
+			trabajos.get(id).progress++;
+		else if(trabajos.get(id).progress<MAX_PROGRESS_dic)//Aumento el progreso...
 			trabajos.get(id).progress++;
 		}catch(Exception e){}
 	}
@@ -57,31 +62,35 @@ public class ControladorImpl extends ControladorPOA{
 	public void dividirTrabajo(Trabajo t)
 	{
 		//inserta las divisiones
-		for(int i=StrManager.INICIO; i<=StrManager.FIN; i++)
-			setDivision(new Division(t, (char)i));
+		if(t.diccionario==0)
+			for(int i=StrManager.INICIO; i<=StrManager.FIN; i++)
+				setDivision(new Division(t, (char)i));
+		else
+			for(int i=1; i<=10; i++)
+				setDivision(new Division(t, (char)i));
 	}
 	
-	public synchronized Trabajo crearMD5(String cadena, int tam_maximo)
+	public synchronized Trabajo crearMD5(String cadena, int tam_maximo, int dic)
 	{
 		int id = trabajos.size();
-		Trabajo aux = new Trabajo(false,id, MD5, cadena, 0, "", tam_maximo, 0,"");
+		Trabajo aux = new Trabajo(false,id, MD5, dic, cadena, 0, "", tam_maximo, 0,"");
 		trabajos.add(aux);
 		dividirTrabajo(aux);
 		return aux;
 	}
 
 	
-	public synchronized Trabajo crearSHA(String cadena, int tam_maximo)
+	public synchronized Trabajo crearSHA(String cadena, int tam_maximo, int dic)
 	{
 		int id = trabajos.size();
-		Trabajo aux = new Trabajo(false,id, SHA, cadena, 0, "", tam_maximo, 0,"");
+		Trabajo aux = new Trabajo(false,id, SHA,dic,  cadena, 0, "", tam_maximo, 0,"");
 		trabajos.add(aux);
 		dividirTrabajo(aux);
 		return aux;
 	}
 
 	
-	public synchronized Trabajo crearRed(String cadena, int puerto, String usuario, int tam_maximo) 
+	public synchronized Trabajo crearRed(String cadena, int puerto, String usuario, int tam_maximo, int dic) 
 	{
 		Trabajo aux = new Trabajo();
 		int id = trabajos.size();
@@ -93,6 +102,7 @@ public class ControladorImpl extends ControladorPOA{
 		aux.usuario = usuario;
 		aux.cadena = cadena;
 		aux.resultado="";
+		aux.diccionario = dic;
 		trabajos.add(aux);
 		dividirTrabajo(aux);
 		return aux;

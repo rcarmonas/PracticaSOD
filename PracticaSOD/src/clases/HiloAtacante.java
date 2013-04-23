@@ -2,6 +2,8 @@ package clases;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -44,7 +46,12 @@ public class HiloAtacante extends Thread {
 			//Añade la primera letra:
 			cad.append(trabajo.c);
 			//Comprueba todas las cadenas de forma recursiva:
-			probarCadenas(cad);
+			try{
+				probarCadenas(cad);
+			}catch (Exception e)
+			{
+				ctrl.setDivision(trabajo);
+			}
 			if(activo)//si esta activo
 				ctrl.finTrabajo(trabajo.trabajo.id, resultado);//comunica el fin del trabajo
 			else//si se ha desactivado
@@ -68,18 +75,35 @@ public class HiloAtacante extends Thread {
 	 * Prueba de forma recursiva todas las cadenas posibles hasta encontrar
 	 * un resultado o terminar
 	 * @param str Cadena que llevamos por ahora
+	 * @throws IOException 
 	 */
-	private void probarCadenas(StringBuffer str)
+	private void probarCadenas(StringBuffer str) throws IOException
 	{
-		probarCombinacion(str.toString());
-		
-		if(str.length()<=trabajo.trabajo.tam_maximo-1 && activo && !encontrado)
-			for(char j=(char)StrManager.INICIO;j<=StrManager.FIN; j++)
-			{
-				str.append(j);
-				probarCadenas(str);
-				str.deleteCharAt(str.length()-1);
-			}
+		if(trabajo.trabajo.diccionario==0)
+		{
+			probarCombinacion(str.toString());
+			
+			if(str.length()<=trabajo.trabajo.tam_maximo-1 && activo && !encontrado)
+				for(char j=(char)StrManager.INICIO;j<=StrManager.FIN; j++)
+				{
+					str.append(j);
+					probarCadenas(str);
+					str.deleteCharAt(str.length()-1);
+				}
+		}
+		else
+		{
+				String[] dics = {"dic", "lemario", "nombres"};
+				String aux = dics[trabajo.trabajo.diccionario-1];
+				FileInputStream fstream = new FileInputStream(aux +"/"+(int)trabajo.c+".txt");
+				  DataInputStream in = new DataInputStream(fstream);
+				  BufferedReader br = new BufferedReader(new InputStreamReader(in));
+				  String strLine;
+				  while ((strLine = br.readLine()) != null && activo && !encontrado)   {
+					  probarCombinacion(strLine.trim());
+				  }
+				  in.close();
+		}
 	}
 	/**
 	 * Prueba la combinación actual para averiguar si es la que buscamos

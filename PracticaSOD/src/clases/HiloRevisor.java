@@ -45,7 +45,7 @@ public class HiloRevisor extends SwingWorker<Void,Object[]> {
 						HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" ha sido borrado");
 						hm.start();
 					}
-					if(vectorTrabajos[i].progress==ControladorImpl.MAX_PROGRESS)
+					if(vectorTrabajos[i].progress>=ControladorImpl.MAX_PROGRESS || (vectorTrabajos[i].progress>=ControladorImpl.MAX_PROGRESS_dic && vectorTrabajos[i].diccionario!=0))
 					{
 						trabajosPropios.remove((Integer)aux);
 						controlador.borrarTrabajo(aux);
@@ -106,7 +106,12 @@ public class HiloRevisor extends SwingWorker<Void,Object[]> {
 		{
 			if(trabajos[i].borrado==false)
 			{
-				int progreso=(int)(trabajos[i].progress*100.0/ControladorImpl.MAX_PROGRESS);
+				int aux_max_progress;
+				if(trabajos[i].diccionario==0)
+					aux_max_progress = ControladorImpl.MAX_PROGRESS;
+				else
+					aux_max_progress = ControladorImpl.MAX_PROGRESS_dic;
+				int progreso=(int)(trabajos[i].progress*100.0/aux_max_progress);
 				JProgressBar p=new JProgressBar();
 				p.setValue(progreso);
 				p.setStringPainted(true);
