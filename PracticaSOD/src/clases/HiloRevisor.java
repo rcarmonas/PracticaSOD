@@ -83,11 +83,6 @@ public class HiloRevisor extends SwingWorker<Void,Object[]> {
 		if(seleccionada!=-1)
 			id=Integer.parseInt(inicio.jtTabla.getValueAt(seleccionada, 0).toString());
 		
-    	//borro todas las filas
-		int nrows=inicio.dtmModelo.getRowCount();
-		for(int i=nrows-1;i>=0;i--)
-			inicio.dtmModelo.removeRow(i);
-		
 		//cargo la tabla
         for (Object[] row : rows) 
         {
@@ -96,6 +91,12 @@ public class HiloRevisor extends SwingWorker<Void,Object[]> {
         		inicio.dtmModelo.addRow(row);
         		if((Integer)row[0]==id)
                 	inicio.jtTabla.setRowSelectionInterval(inicio.jtTabla.convertRowIndexToView(inicio.dtmModelo.getRowCount()-1),inicio.jtTabla.convertRowIndexToView(inicio.dtmModelo.getRowCount()-1));
+        	}
+        	else{
+        	//borro todas las filas
+    		int nrows=inicio.dtmModelo.getRowCount();
+    		for(int i=nrows-1;i>=0;i--)
+    			inicio.dtmModelo.removeRow(i);
         	}
         }
     }
