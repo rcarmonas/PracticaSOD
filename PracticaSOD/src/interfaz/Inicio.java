@@ -317,9 +317,7 @@ public class Inicio {
 					textField.setText("");
 					textField_1.setText("");
 					textField_3.setText("");
-					textField_2.setVisible(true);
 					comboBox2.setVisible(true);
-					lblLongitudMximaDe.setVisible(true);
 					CardLayout cl = (CardLayout)(Cambiar.getLayout());
 				    cl.show(Cambiar, "name_3509705215789");
 				}
@@ -336,9 +334,7 @@ public class Inicio {
 				else
 				{
 					textField_4.setText("");
-					textField_2.setVisible(true);
 					comboBox2.setVisible(true);
-					lblLongitudMximaDe.setVisible(true);
 					CardLayout cl = (CardLayout)(Cambiar.getLayout());
 				    cl.show(Cambiar, "name_3509728720973");
 				}
