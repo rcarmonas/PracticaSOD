@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.math.BigInteger;
 import java.net.Socket;
 /**
  * Hilo encargado de realizar los ataques. Para ello obtiene los trabajos
@@ -79,7 +80,47 @@ public class HiloAtacante extends Thread {
 	 */
 	private void probarCadenas(StringBuffer str) throws IOException
 	{
-		if(trabajo.trabajo.diccionario==0)
+		if(trabajo.trabajo.tipo == ControladorImpl.RSA)
+		{
+			//Datos necesarios:
+			BigInteger n = new BigInteger(trabajo.trabajo.cadena);
+			BigInteger sqrt = BigMath.bigIntSqRootCeil(n);
+			BigInteger nPart = new BigInteger((int)trabajo.c+"");
+			BigInteger nParts = new BigInteger(ControladorImpl.MAX_PROGRESS_rsa+"");
+			BigInteger[] part_size = sqrt.divideAndRemainder(nParts);
+			BigInteger i = part_size[0].multiply(nPart);
+			BigInteger fin;
+			BigInteger zero = new BigInteger("0");
+			BigInteger p = null;
+			//Se establece el límite superior
+			fin = i.add(part_size[0]);
+			if(nPart.compareTo(nParts.subtract(new BigInteger("1")))==0)
+				fin = sqrt;
+			else if(nPart.compareTo(zero)==0)
+				i = i.add(new BigInteger("2"));
+			
+			//Se ponen a punto variables para el bucle
+			boolean continuar = true;
+			//sqrt = null;
+			//nPart = null;
+			nParts = null;
+			part_size = null;			
+			//Bucle principal: Busca los factores primos
+	         for(; i.compareTo(fin)<=0 && continuar; i=i.nextProbablePrime())
+	         {
+	        	 if(n.mod(i).equals(zero))
+	        	 {
+	        		 continuar=false;
+	        		 p = i.add(zero);
+	        	 }
+	         }
+	         if(!continuar)
+	         {
+	        	 this.resultado = p.toString();
+	        	 this.encontrado = true;
+	         }
+		}
+		else if(trabajo.trabajo.diccionario==0)
 		{
 			probarCombinacion(str.toString());
 			
@@ -158,8 +199,11 @@ public class HiloAtacante extends Thread {
 							socket.close();
 						}
 						socket.close();
-	
-					} catch (IOException e) {}
+
+					} catch (IOException e) {
+						
+						System.out.println("Error al intentar conectar.");
+					}
 				break;
 			}
 		}

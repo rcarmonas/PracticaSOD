@@ -22,17 +22,20 @@ public class ControladorImpl extends ControladorPOA{
 	
 	public void finTrabajo(int id, String clave) 
 	{
+		int maxProgress = this.MAX_PROGRESS;
+		if(trabajos.get(id).tipo == RSA)
+			maxProgress = this.MAX_PROGRESS_rsa;
+		else if(trabajos.get(id).diccionario !=0)
+			maxProgress = this.MAX_PROGRESS_dic;
 		try{
 		if(!clave.equals(""))//Acabado!
 		{
 			System.out.println("Trabajo: "+id+" Resultado: "+clave);
-			trabajos.get(id).progress = MAX_PROGRESS;
+			trabajos.get(id).progress = maxProgress;
 			//Procesar contraseña obtenida
 			trabajos.get(id).resultado=clave;
 		}
-		else if(trabajos.get(id).diccionario==0 && trabajos.get(id).progress<MAX_PROGRESS)//Aumento el progreso...
-			trabajos.get(id).progress++;
-		else if(trabajos.get(id).progress<MAX_PROGRESS_dic)//Aumento el progreso...
+		else if(trabajos.get(id).progress<maxProgress)//Aumento el progreso...
 			trabajos.get(id).progress++;
 		}catch(Exception e){}
 	}
@@ -62,7 +65,10 @@ public class ControladorImpl extends ControladorPOA{
 	public void dividirTrabajo(Trabajo t)
 	{
 		//inserta las divisiones
-		if(t.diccionario==0)
+		if(t.tipo == RSA)
+			for(int i=0; i<this.MAX_PROGRESS_rsa; i++)
+				setDivision(new Division(t, (char)i));
+		else if(t.diccionario==0)
 			for(int i=StrManager.INICIO; i<=StrManager.FIN; i++)
 				setDivision(new Division(t, (char)i));
 		else
@@ -108,6 +114,21 @@ public class ControladorImpl extends ControladorPOA{
 		return aux;
 	}
 
+	public synchronized Trabajo crearRSA(String cadena1, String cadena2) 
+	{
+		Trabajo aux = new Trabajo();
+		int id = trabajos.size();
+		aux.id = id;
+		aux.tipo = RSA;
+		aux.progress = 0;
+		aux.resultado="";
+		aux.cadena = cadena1;
+		aux.usuario = cadena2;
+		trabajos.add(aux);
+		dividirTrabajo(aux);
+		return aux;
+	}
+	
 	@Override
 	public Trabajo[] trabajos() {
 		return trabajos.toArray(new Trabajo[trabajos.size()]);

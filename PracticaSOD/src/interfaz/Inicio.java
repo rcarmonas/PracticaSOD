@@ -378,7 +378,7 @@ public class Inicio {
 						 //TODO Crear el trabajo rsa.
 						 //textField_6.getText()->cadena 1
 						//textField_7.getText()->cadena 2
-						//aux=control.crearRSA(textField_6.getText(),textField_7.getText());
+						aux=control.crearRSA(textField_6.getText(),textField_7.getText());
 					 }
 					 trabajosRevisar.add(aux.id);
 					 
