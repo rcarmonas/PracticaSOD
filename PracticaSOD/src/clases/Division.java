@@ -13,14 +13,22 @@ public final class Division implements org.omg.CORBA.portable.IDLEntity
   public clases.Trabajo trabajo = null;
   public char c = (char)0;
 
+  /**
+   * Constructor vacío
+   */
   public Division ()
   {
-  } // ctor
+  }
 
+  /**
+   * Constructor parametrizado
+   * @param _trabajo Trabajo que se dividirá
+   * @param _c Número o carácter de la división en concreto
+   */
   public Division (clases.Trabajo _trabajo, char _c)
   {
     trabajo = _trabajo;
     c = _c;
-  } // ctor
+  }
 
 } // class Division

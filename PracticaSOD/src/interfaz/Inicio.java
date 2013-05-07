@@ -30,6 +30,12 @@ import org.omg.CosNaming.NamingContextExtHelper;
 
 import clases.*;
 
+/**
+ * Clase que contiene la interfaz y el funcionamiento de la aplicación del lado 
+ * del cliente
+ * @author Rafael Carmona Sánchez
+ * @author José Manuel Herruzo Ruiz
+ */
 public class Inicio {
 	private JFrame ventana;
 	private JTextField textField_2;
