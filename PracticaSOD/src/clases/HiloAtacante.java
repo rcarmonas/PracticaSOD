@@ -35,7 +35,6 @@ public class HiloAtacante extends Thread {
 		{
 			//Obtengo un trabajo:
 			trabajo = ctrl.getDivision();
-			System.out.println("prueba?");
 			if(!activo)
 			{
 				ctrl.setDivision(trabajo);//si se desactivo mientras esperaba en la cola, devuelve el trabajo
@@ -91,37 +90,35 @@ public class HiloAtacante extends Thread {
 			BigInteger[] part_size = sqrt.divideAndRemainder(nParts);
 			BigInteger i = part_size[0].multiply(nPart);
 			BigInteger fin;
-			BigInteger zero = new BigInteger("0");
 			BigInteger p = null;
 			//Se establece el límite superior
 			fin = i.add(part_size[0]);
-			if(nPart.compareTo(nParts.subtract(new BigInteger("1")))==0)
+			if(nPart.compareTo(nParts.subtract(BigInteger.ONE))==0)
 				fin = sqrt;
-			else if(nPart.compareTo(zero)==0)
+			if(i.compareTo(BigInteger.ZERO)==0)
 				i = i.add(new BigInteger("2"));
-			System.out.println(i + " " + fin + " " + trabajo.trabajo.cadena);
 			//Se ponen a punto variables para el bucle
 			boolean continuar = true;
-			//sqrt = null;
-			//nPart = null;
+			sqrt = null;
+			nPart = null;
 			nParts = null;
 			part_size = null;			
 			//Bucle principal: Busca los factores primos
 	         for(; i.compareTo(fin)<=0 && continuar; i=i.nextProbablePrime())
 	         {
-	        	 if(n.mod(i).equals(zero))
+	        	 if(n.mod(i).equals(BigInteger.ZERO))
 	        	 {
 	        		 continuar=false;
-	        		 p = i.add(zero);
+	        		 p = i.add(BigInteger.ZERO);
 	        	 }
 	         }
 	         if(!continuar)
 	         {
 	        	 this.encontrado = true;
-	        	 BigInteger uno = new BigInteger("1");
 	        	 BigInteger q = n.divide(p);
-	        	 BigInteger phi = q.subtract(uno).multiply(p.subtract(uno));
+	        	 BigInteger phi = q.subtract(BigInteger.ONE).multiply(p.subtract(BigInteger.ONE));
 	        	 BigInteger e = new BigInteger(trabajo.trabajo.usuario);
+		 			System.out.println(n + " " + i);
 	        	 BigInteger d = e.modInverse(phi);
 	        	 this.resultado =  "d=" + d.toString() + ", " +  "n=" + n.toString();
 	         }

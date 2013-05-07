@@ -273,18 +273,18 @@ public class Inicio {
 			JPanel RSA = new JPanel();
 			Cambiar.add(RSA, "name_2504083831003");
 			
-			JLabel lblCadena_1 = new JLabel("Cadena 1");
+			JLabel lblCadena_1 = new JLabel("n");
 			RSA.add(lblCadena_1);
 			
 			textField_6 = new JTextField();
-			textField_6.setColumns(25);
+			textField_6.setColumns(30);
 			RSA.add(textField_6);
 			
-			JLabel lblCadena_2 = new JLabel("Cadena 2");
+			JLabel lblCadena_2 = new JLabel("e");
 			RSA.add(lblCadena_2);
 			
 			textField_7 = new JTextField();
-			textField_7.setColumns(25);
+			textField_7.setColumns(30);
 			RSA.add(textField_7);
 		
 			
