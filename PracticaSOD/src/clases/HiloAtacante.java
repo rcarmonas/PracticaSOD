@@ -98,23 +98,23 @@ public class HiloAtacante extends Thread {
 			if(i.compareTo(BigInteger.ZERO)==0)
 				i = i.add(new BigInteger("2"));
 			//Se ponen a punto variables para el bucle
-			boolean continuar = true;
+			boolean resultadoEncontrado = false;
 			sqrt = null;
 			nPart = null;
 			nParts = null;
 			part_size = null;			
 			//Bucle principal: Busca los factores primos
-	         for(; i.compareTo(fin)<=0 && continuar; i=i.nextProbablePrime())
+	         for(; i.compareTo(fin)<=0 && !encontrado && activo; i=i.nextProbablePrime())
 	         {
 	        	 if(n.mod(i).equals(BigInteger.ZERO))
 	        	 {
-	        		 continuar=false;
+	        		 this.encontrado=true;
+	        		 resultadoEncontrado = true;
 	        		 p = i.add(BigInteger.ZERO);
 	        	 }
 	         }
-	         if(!continuar)
+	         if(resultadoEncontrado)
 	         {
-	        	 this.encontrado = true;
 	        	 BigInteger q = n.divide(p);
 	        	 BigInteger phi = q.subtract(BigInteger.ONE).multiply(p.subtract(BigInteger.ONE));
 	        	 BigInteger e = new BigInteger(trabajo.trabajo.usuario);
@@ -144,7 +144,7 @@ public class HiloAtacante extends Thread {
 				  BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				  String strLine;
 				  while ((strLine = br.readLine()) != null && activo && !encontrado)   {
-					  probarCombinacion(strLine.trim());
+					  probarCombinacion(strLine.trim().toLowerCase());
 				  }
 				  in.close();
 		}
