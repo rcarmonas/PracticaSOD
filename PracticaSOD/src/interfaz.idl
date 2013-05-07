@@ -33,5 +33,7 @@ module clases {
 		Trabajo crearMD5(in string cadena, in unsigned long tam_maximo, in unsigned long dic);
 		Trabajo crearSHA(in string cadena, in unsigned long tam_maximo, in unsigned long dic);
 		Trabajo crearRed(in string cadena, in unsigned long puerto, in string usuario, in unsigned long tam_maximo, in unsigned long dic);
+		Trabajo crearRSA(in string cadena1, in string cadena2);
+		
 	};
 };

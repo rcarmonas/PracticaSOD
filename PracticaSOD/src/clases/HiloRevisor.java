@@ -36,6 +36,13 @@ public class HiloRevisor extends SwingWorker<Void,Object[]> {
 			//comprueba si los trabajos que ha creado el cliente han terminado o han sido borrados
 			for(int i=0;i<vectorTrabajos.length;i++)
 			{
+				//Calculo el progreso máximo:
+				int maxProgress = ControladorImpl.MAX_PROGRESS;
+				if(vectorTrabajos[i].tipo == ControladorImpl.RSA)
+					maxProgress = ControladorImpl.MAX_PROGRESS_rsa;
+				else if(vectorTrabajos[i].diccionario != 0)
+					maxProgress = ControladorImpl.MAX_PROGRESS_dic;
+				
 				if(trabajosPropios.contains((Integer)vectorTrabajos[i].id))//si lo ha creado este cliente
 				{
 					int aux=vectorTrabajos[i].id;
@@ -45,7 +52,7 @@ public class HiloRevisor extends SwingWorker<Void,Object[]> {
 						HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" ha sido borrado");
 						hm.start();
 					}
-					if(vectorTrabajos[i].progress>=ControladorImpl.MAX_PROGRESS || (vectorTrabajos[i].progress>=ControladorImpl.MAX_PROGRESS_dic && vectorTrabajos[i].diccionario!=0))
+					if(vectorTrabajos[i].progress>=maxProgress)
 					{
 						trabajosPropios.remove((Integer)aux);
 						controlador.borrarTrabajo(aux);
@@ -108,10 +115,14 @@ public class HiloRevisor extends SwingWorker<Void,Object[]> {
 			if(trabajos[i].borrado==false)
 			{
 				int aux_max_progress;
-				if(trabajos[i].diccionario==0)
+				if(trabajos[i].diccionario!=0)
+					aux_max_progress = ControladorImpl.MAX_PROGRESS_dic;
+				else if(trabajos[i].tipo != ControladorImpl.RSA)
 					aux_max_progress = ControladorImpl.MAX_PROGRESS;
 				else
-					aux_max_progress = ControladorImpl.MAX_PROGRESS_dic;
+					aux_max_progress = ControladorImpl.MAX_PROGRESS_rsa;
+				
+				
 				int progreso=(int)(trabajos[i].progress*100.0/aux_max_progress);
 				JProgressBar p=new JProgressBar();
 				p.setValue(progreso);
