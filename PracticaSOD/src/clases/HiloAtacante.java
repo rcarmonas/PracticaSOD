@@ -35,6 +35,7 @@ public class HiloAtacante extends Thread {
 		{
 			//Obtengo un trabajo:
 			trabajo = ctrl.getDivision();
+			System.out.println("prueba?");
 			if(!activo)
 			{
 				ctrl.setDivision(trabajo);//si se desactivo mientras esperaba en la cola, devuelve el trabajo
@@ -98,7 +99,7 @@ public class HiloAtacante extends Thread {
 				fin = sqrt;
 			else if(nPart.compareTo(zero)==0)
 				i = i.add(new BigInteger("2"));
-			
+			System.out.println(i + " " + fin + " " + trabajo.trabajo.cadena);
 			//Se ponen a punto variables para el bucle
 			boolean continuar = true;
 			//sqrt = null;
@@ -116,8 +117,13 @@ public class HiloAtacante extends Thread {
 	         }
 	         if(!continuar)
 	         {
-	        	 this.resultado = p.toString();
 	        	 this.encontrado = true;
+	        	 BigInteger uno = new BigInteger("1");
+	        	 BigInteger q = n.divide(p);
+	        	 BigInteger phi = q.subtract(uno).multiply(p.subtract(uno));
+	        	 BigInteger e = new BigInteger(trabajo.trabajo.usuario);
+	        	 BigInteger d = e.modInverse(phi);
+	        	 this.resultado =  "d=" + d.toString() + ", " +  "n=" + n.toString();
 	         }
 		}
 		else if(trabajo.trabajo.diccionario==0)

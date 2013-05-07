@@ -1,5 +1,6 @@
 package clases;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -66,8 +67,15 @@ public class ControladorImpl extends ControladorPOA{
 	{
 		//inserta las divisiones
 		if(t.tipo == RSA)
-			for(int i=0; i<this.MAX_PROGRESS_rsa; i++)
-				setDivision(new Division(t, (char)i));
+		{
+			BigInteger aux = new BigInteger(t.cadena);
+			BigInteger limite = new BigInteger("256");
+			if(aux.compareTo(limite)<0)
+				setDivision(new Division(t, (char)255));
+			else
+				for(int i=0; i<ControladorImpl.MAX_PROGRESS_rsa; i++)
+					setDivision(new Division(t, (char)i));
+		}
 		else if(t.diccionario==0)
 			for(int i=StrManager.INICIO; i<=StrManager.FIN; i++)
 				setDivision(new Division(t, (char)i));
