@@ -51,6 +51,7 @@ public class HiloAtacante extends Thread {
 				probarCadenas(cad);
 			}catch (Exception e)
 			{
+				e.printStackTrace();
 				ctrl.setDivision(trabajo);
 			}
 			if(activo)//si esta activo
@@ -90,13 +91,17 @@ public class HiloAtacante extends Thread {
 			BigInteger[] part_size = sqrt.divideAndRemainder(nParts);
 			BigInteger i = part_size[0].multiply(nPart);
 			BigInteger fin;
+			BigInteger dos = new BigInteger("2");
 			BigInteger p = null;
 			//Se establece el límite superior
 			fin = i.add(part_size[0]);
 			if(nPart.compareTo(nParts.subtract(BigInteger.ONE))==0)
 				fin = sqrt;
 			if(i.compareTo(BigInteger.ZERO)==0)
-				i = i.add(new BigInteger("2"));
+				i = i.add(dos);
+			//compruebo que sea un número impar:
+			if(i.mod(dos).compareTo(BigInteger.ZERO)==0)
+				i = i.add(BigInteger.ONE);
 			//Se ponen a punto variables para el bucle
 			boolean resultadoEncontrado = false;
 			sqrt = null;
@@ -104,7 +109,7 @@ public class HiloAtacante extends Thread {
 			nParts = null;
 			part_size = null;			
 			//Bucle principal: Busca los factores primos
-	         for(; i.compareTo(fin)<=0 && !encontrado && activo; i=i.nextProbablePrime())
+	         for(; i.compareTo(fin)<=0 && !encontrado && activo; i=i.add(dos))
 	         {
 	        	 if(n.mod(i).equals(BigInteger.ZERO))
 	        	 {
@@ -118,7 +123,6 @@ public class HiloAtacante extends Thread {
 	        	 BigInteger q = n.divide(p);
 	        	 BigInteger phi = q.subtract(BigInteger.ONE).multiply(p.subtract(BigInteger.ONE));
 	        	 BigInteger e = new BigInteger(trabajo.trabajo.usuario);
-		 			System.out.println(n + " " + i);
 	        	 BigInteger d = e.modInverse(phi);
 	        	 this.resultado =  "d=" + d.toString() + ", " +  "n=" + n.toString();
 	         }
