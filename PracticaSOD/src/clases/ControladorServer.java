@@ -20,8 +20,12 @@ public class ControladorServer {
 	 */
 	public static void main(String[] args) {
 		try{
-		// Crear e inicializar el ORB
-	      ORB orb = ORB.init(args, null);
+			String ip =InetAddress.getLocalHost().getHostAddress();
+			
+			String linea []={"-ORBInitialPort",args[0],"-ORBServerHost",ip};
+			
+		  // Crear e inicializar el ORB
+	      ORB orb = ORB.init(linea, null);
 
 	      // Obtener la referencia del POA raiz
 	      POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
@@ -48,8 +52,7 @@ public class ControladorServer {
 	      String name = "Controlador";
 	      NameComponent path[] = ncRef.to_name( name );
 	      ncRef.rebind(path, cref);
-
-		  String ip =InetAddress.getLocalHost().getHostAddress();
+		  
 	      URL url = new URL("http://rcarmonas.16mb.com/sod.php?modo=servidor&ip="+ip+"&puerto="+args[1]);
 	      URLConnection con = url.openConnection();
 	      BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
