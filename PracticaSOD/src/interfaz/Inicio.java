@@ -404,8 +404,8 @@ public class Inicio {
 		dtmModelo.addColumn("Diccionario");
 		dtmModelo.addColumn("Dirección");
 		dtmModelo.addColumn("Puerto");
-		dtmModelo.addColumn("Cadena1");
-		dtmModelo.addColumn("Cadena2");
+		dtmModelo.addColumn("n");
+		dtmModelo.addColumn("e");
 		dtmModelo.addColumn("Long");
 		dtmModelo.addColumn("Progreso");
 		
@@ -419,9 +419,9 @@ public class Inicio {
 		TableColumn tcColumna;
 		tcColumna=jtTabla.getColumn("ID");
 		tcColumna.setPreferredWidth(20);
-		tcColumna=jtTabla.getColumn("Cadena1");
+		tcColumna=jtTabla.getColumn("n");
 		tcColumna.setPreferredWidth(250);
-		tcColumna=jtTabla.getColumn("Cadena2");
+		tcColumna=jtTabla.getColumn("e");
 		tcColumna.setPreferredWidth(200);
 		tcColumna=jtTabla.getColumn("Tipo");
 		tcColumna.setPreferredWidth(30);
