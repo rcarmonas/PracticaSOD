@@ -404,7 +404,7 @@ public class Inicio {
 		dtmModelo.addColumn("Diccionario");
 		dtmModelo.addColumn("Dirección");
 		dtmModelo.addColumn("Puerto");
-		dtmModelo.addColumn("n(RSA) / Hash / Dirección");
+		dtmModelo.addColumn("Usuario / Hash / n");
 		dtmModelo.addColumn("e");
 		dtmModelo.addColumn("Long");
 		dtmModelo.addColumn("Progreso");
@@ -419,7 +419,7 @@ public class Inicio {
 		TableColumn tcColumna;
 		tcColumna=jtTabla.getColumn("ID");
 		tcColumna.setPreferredWidth(20);
-		tcColumna=jtTabla.getColumn("n / Hash / Dirección");
+		tcColumna=jtTabla.getColumn("Usuario / Hash / n");
 		tcColumna.setPreferredWidth(250);
 		tcColumna=jtTabla.getColumn("e");
 		tcColumna.setPreferredWidth(200);
