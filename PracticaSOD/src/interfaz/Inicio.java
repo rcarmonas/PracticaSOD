@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -28,7 +32,11 @@ import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 
-import clases.*;
+import clases.Controlador;
+import clases.ControladorHelper;
+import clases.HiloAtacante;
+import clases.HiloRevisor;
+import clases.Trabajo;
 
 /**
  * Clase que contiene la interfaz y el funcionamiento de la aplicación del lado 
@@ -76,7 +84,7 @@ public class Inicio {
 	public Inicio(String[] args) {
 		trabajosRevisar=new ArrayList<Integer>();
 		hilos=new ArrayList<HiloAtacante>();
-		control=buscarControlador(args);
+		control=buscarControlador();
 
 		Runtime.getRuntime().addShutdownHook(new Thread()
 		{
@@ -96,11 +104,17 @@ public class Inicio {
 		initialize();
 		crearHiloRevisor();
 	}
-	public static Controlador buscarControlador(String[] args)
+	public static Controlador buscarControlador()
 	{
-		try{
+		try{			
+			URL url = new URL("http://rcarmonas.16mb.com/sod.php?modo=cliente");
+		    URLConnection con = url.openConnection();
+		
+		    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		    String linea[]={"-ORBInitialHost",in.readLine(),"-ORBInitialPort",in.readLine()};
+		    
 			// Crear e inicializar el ORB
-			ORB orb = ORB.init(args, null);
+			ORB orb = ORB.init(linea, null);
 	        // Obtener la referencia CORBA al servidor de nombres
 	        org.omg.CORBA.Object objRef = 
 		    orb.resolve_initial_references("NameService");

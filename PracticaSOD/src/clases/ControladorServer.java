@@ -1,5 +1,11 @@
 package clases;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.URLConnection;
+
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextExt;
@@ -43,6 +49,11 @@ public class ControladorServer {
 	      NameComponent path[] = ncRef.to_name( name );
 	      ncRef.rebind(path, cref);
 
+		  String ip =InetAddress.getLocalHost().getHostAddress();
+	      URL url = new URL("http://rcarmonas.16mb.com/sod.php?modo=servidor&ip="+ip+"&puerto="+args[1]);
+	      URLConnection con = url.openConnection();
+	      BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	      
 	      System.out.println("ControladorServer listo y esperando...");
 
 	      // wait for invocations from clients
