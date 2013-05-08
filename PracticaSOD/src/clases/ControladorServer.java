@@ -53,7 +53,7 @@ public class ControladorServer {
 	      NameComponent path[] = ncRef.to_name( name );
 	      ncRef.rebind(path, cref);
 		  
-	      URL url = new URL("http://rcarmonas.16mb.com/sod.php?modo=servidor&ip="+ip+"&puerto="+args[1]);
+	      URL url = new URL("http://rcarmonas.16mb.com/sod.php?modo=servidor&ip="+ip+"&puerto="+args[0]);
 	      URLConnection con = url.openConnection();
 	      BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 	      
