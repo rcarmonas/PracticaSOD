@@ -10,6 +10,7 @@ module clases {
 		string usuario;
 		unsigned long tam_maximo;
 		unsigned long progress;
+		unsigned long max_progress;
 		string resultado;
 	};
 	struct Division
@@ -24,6 +25,7 @@ module clases {
 		const unsigned long MD5=0;
 		const unsigned long SHA=1;
 		const unsigned long RED=2;
+		const unsigned long RSA=3;
 		void finTrabajo(in unsigned long id, in string clave);
 		void borrarTrabajo(in unsigned long id);
 		Division getDivision();

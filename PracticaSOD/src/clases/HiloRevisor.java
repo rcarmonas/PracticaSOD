@@ -35,28 +35,26 @@ public class HiloRevisor extends SwingWorker<Void,Object[]> {
 			
 			//comprueba si los trabajos que ha creado el cliente han terminado o han sido borrados
 			for(int i=0;i<vectorTrabajos.length;i++)
-			{
-				//Calculo el progreso máximo:
-				int maxProgress = ControladorImpl.MAX_PROGRESS;
-				if(vectorTrabajos[i].tipo == ControladorImpl.RSA)
-					maxProgress = ControladorImpl.MAX_PROGRESS_rsa;
-				else if(vectorTrabajos[i].diccionario != 0)
-					maxProgress = ControladorImpl.MAX_PROGRESS_dic;
-				
+			{				
 				if(trabajosPropios.contains((Integer)vectorTrabajos[i].id))//si lo ha creado este cliente
 				{
 					int aux=vectorTrabajos[i].id;
 					if(vectorTrabajos[i].borrado==true)
 					{
 						trabajosPropios.remove((Integer)aux);
-						HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" ha sido borrado");
+						HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" ha sido borrado",inicio.ventana);
 						hm.start();
 					}
-					if(vectorTrabajos[i].progress>=maxProgress)
+					if(vectorTrabajos[i].progress>=vectorTrabajos[i].max_progress)
 					{
 						trabajosPropios.remove((Integer)aux);
 						controlador.borrarTrabajo(aux);
-						HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" finalizado\nResultado: "+vectorTrabajos[i].resultado);
+						String res=vectorTrabajos[i].resultado;
+						if(res.equals(""))
+							res="No se ha encontrado la solución";
+						else
+							res="Resultado: "+res;
+						HiloMensaje hm=new HiloMensaje("Trabajo con ID "+aux+" finalizado\n"+res,inicio.ventana);
 						hm.start();
 					}
 				}
@@ -114,39 +112,36 @@ public class HiloRevisor extends SwingWorker<Void,Object[]> {
 		{
 			if(trabajos[i].borrado==false)
 			{
-				int aux_max_progress;
-				if(trabajos[i].diccionario!=0)
-					aux_max_progress = ControladorImpl.MAX_PROGRESS_dic;
-				else if(trabajos[i].tipo != ControladorImpl.RSA)
-					aux_max_progress = ControladorImpl.MAX_PROGRESS;
-				else
-					aux_max_progress = ControladorImpl.MAX_PROGRESS_rsa;
-				
-				
-				int progreso=(int)(trabajos[i].progress*100.0/aux_max_progress);
+				int progreso=(int)(trabajos[i].progress*100.0/trabajos[i].max_progress);
 				JProgressBar p=new JProgressBar();
 				p.setValue(progreso);
 				p.setStringPainted(true);
+				String diccionario="";
+				switch(trabajos[i].diccionario)
+				{
+					case 0: diccionario="No"; break;
+					case 1: diccionario="Diccionario"; break;
+					case 2: diccionario="Palabras"; break;
+					case 3: diccionario="Nombres"; break;
+				}
 				if(trabajos[i].tipo==ControladorImpl.MD5)
 				{
-					Object aoNuevo[]= {trabajos[i].id,"MD5","","","",trabajos[i].cadena,trabajos[i].tam_maximo,p};
+					Object aoNuevo[]= {trabajos[i].id,"MD5",diccionario,"","",trabajos[i].cadena,"",trabajos[i].tam_maximo,p};
 					publish(aoNuevo);
 				}
 				else if(trabajos[i].tipo==ControladorImpl.SHA)
 				{
-					Object aoNuevo[]= {trabajos[i].id,"SHA","","","",trabajos[i].cadena,trabajos[i].tam_maximo,p};
+					Object aoNuevo[]= {trabajos[i].id,"SHA",diccionario,"","",trabajos[i].cadena,"",trabajos[i].tam_maximo,p};
 					publish(aoNuevo);
 				}
 				else if(trabajos[i].tipo==ControladorImpl.RED)
 				{
-					Object aoNuevo[]= {trabajos[i].id,"Red",trabajos[i].cadena,trabajos[i].puerto,trabajos[i].usuario,"",trabajos[i].tam_maximo,p};
+					Object aoNuevo[]= {trabajos[i].id,"Red",diccionario,trabajos[i].cadena,trabajos[i].puerto,trabajos[i].usuario,"",trabajos[i].tam_maximo,p};
 					publish(aoNuevo);
 				}
 				else if(trabajos[i].tipo==ControladorImpl.RSA)
 				{
-					//TODO mostrar en el vector la información del trabajo RSA
-					//he usado de momento el atributo cadena y usuario de la clase Trabajo pa meter las cadenas de RSA
-					Object aoNuevo[]= {trabajos[i].id,"RSA",trabajos[i].cadena,"",trabajos[i].usuario,"","",p};
+					Object aoNuevo[]= {trabajos[i].id,"RSA",diccionario,"","",trabajos[i].cadena,trabajos[i].usuario,trabajos[i].tam_maximo,p};
 					publish(aoNuevo);
 				}
 			}

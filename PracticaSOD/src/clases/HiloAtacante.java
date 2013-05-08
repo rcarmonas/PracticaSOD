@@ -104,24 +104,24 @@ public class HiloAtacante extends Thread {
 			nParts = null;
 			part_size = null;			
 			//Bucle principal: Busca los factores primos
-	         for(; i.compareTo(fin)<=0 && !encontrado && activo; i=i.nextProbablePrime())
-	         {
-	        	 if(n.mod(i).equals(BigInteger.ZERO))
-	        	 {
-	        		 this.encontrado=true;
-	        		 resultadoEncontrado = true;
-	        		 p = i.add(BigInteger.ZERO);
-	        	 }
-	         }
-	         if(resultadoEncontrado)
-	         {
-	        	 BigInteger q = n.divide(p);
-	        	 BigInteger phi = q.subtract(BigInteger.ONE).multiply(p.subtract(BigInteger.ONE));
-	        	 BigInteger e = new BigInteger(trabajo.trabajo.usuario);
-		 			System.out.println(n + " " + i);
-	        	 BigInteger d = e.modInverse(phi);
-	        	 this.resultado =  "d=" + d.toString() + ", " +  "n=" + n.toString();
-	         }
+	        for(; i.compareTo(fin)<=0 && !encontrado && activo; i=i.nextProbablePrime())
+	        {
+	        	if(n.mod(i).equals(BigInteger.ZERO))
+	        	{
+	        		this.encontrado=true;
+	        		resultadoEncontrado = true;
+	        		p = i.add(BigInteger.ZERO);
+	        	}
+	        }
+	        if(resultadoEncontrado)
+	        {
+	        	BigInteger q = n.divide(p);
+	        	BigInteger phi = q.subtract(BigInteger.ONE).multiply(p.subtract(BigInteger.ONE));
+	        	BigInteger e = new BigInteger(trabajo.trabajo.usuario);
+		 		System.out.println(n + " " + i);
+	        	BigInteger d = e.modInverse(phi);
+	        	this.resultado =  "d=" + d.toString() + ", " +  "n=" + n.toString();
+	        }
 		}
 		else if(trabajo.trabajo.diccionario==0)
 		{
@@ -137,16 +137,18 @@ public class HiloAtacante extends Thread {
 		}
 		else
 		{
-				String[] dics = {"dic", "lemario", "nombres"};
-				String aux = dics[trabajo.trabajo.diccionario-1];
-				FileInputStream fstream = new FileInputStream(aux +"/"+(int)trabajo.c+".txt");
-				  DataInputStream in = new DataInputStream(fstream);
-				  BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				  String strLine;
-				  while ((strLine = br.readLine()) != null && activo && !encontrado)   {
-					  probarCombinacion(strLine.trim().toLowerCase());
-				  }
-				  in.close();
+			String[] dics = {"dic", "lemario", "nombres"};
+			String aux = dics[trabajo.trabajo.diccionario-1];
+			FileInputStream fstream = new FileInputStream(aux +"/"+(int)trabajo.c+".txt");
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			
+			String strLine;
+			
+			while ((strLine = br.readLine()) != null && activo && !encontrado)
+				probarCombinacion(strLine.trim().toLowerCase());
+			
+			in.close();
 		}
 	}
 	/**

@@ -23,21 +23,16 @@ public class ControladorImpl extends ControladorPOA{
 	
 	public void finTrabajo(int id, String clave) 
 	{
-		int maxProgress = this.MAX_PROGRESS;
-		if(trabajos.get(id).tipo == RSA)
-			maxProgress = this.MAX_PROGRESS_rsa;
-		else if(trabajos.get(id).diccionario !=0)
-			maxProgress = this.MAX_PROGRESS_dic;
+		int maxProgress = trabajos.get(id).max_progress;
 		try{
-		if(!clave.equals(""))//Acabado!
-		{
-			System.out.println("Trabajo: "+id+" Resultado: "+clave);
-			trabajos.get(id).progress = maxProgress;
-			//Procesar contraseña obtenida
-			trabajos.get(id).resultado=clave;
-		}
-		else if(trabajos.get(id).progress<maxProgress)//Aumento el progreso...
-			trabajos.get(id).progress++;
+			if(!clave.equals(""))//Acabado!
+			{
+				trabajos.get(id).progress = maxProgress;
+				//Procesar contraseña obtenida
+				trabajos.get(id).resultado=clave;
+			}
+			else if(trabajos.get(id).progress<maxProgress)//Aumento el progreso...
+				trabajos.get(id).progress++;
 		}catch(Exception e){}
 	}
 
@@ -80,14 +75,16 @@ public class ControladorImpl extends ControladorPOA{
 			for(int i=StrManager.INICIO; i<=StrManager.FIN; i++)
 				setDivision(new Division(t, (char)i));
 		else
-			for(int i=1; i<=10; i++)
+			for(int i=1; i<=MAX_PROGRESS_dic; i++)
 				setDivision(new Division(t, (char)i));
 	}
 	
 	public synchronized Trabajo crearMD5(String cadena, int tam_maximo, int dic)
 	{
 		int id = trabajos.size();
-		Trabajo aux = new Trabajo(false,id, MD5, dic, cadena, 0, "", tam_maximo, 0,"");
+		Trabajo aux = new Trabajo(false,id, MD5, dic, cadena, 0, "", tam_maximo, 0,MAX_PROGRESS,"");
+		if(dic!=0)
+			aux.max_progress=MAX_PROGRESS_dic;
 		trabajos.add(aux);
 		dividirTrabajo(aux);
 		return aux;
@@ -97,7 +94,9 @@ public class ControladorImpl extends ControladorPOA{
 	public synchronized Trabajo crearSHA(String cadena, int tam_maximo, int dic)
 	{
 		int id = trabajos.size();
-		Trabajo aux = new Trabajo(false,id, SHA,dic,  cadena, 0, "", tam_maximo, 0,"");
+		Trabajo aux = new Trabajo(false,id, SHA,dic,  cadena, 0, "", tam_maximo, 0,MAX_PROGRESS,"");
+		if(dic!=0)
+			aux.max_progress=MAX_PROGRESS_dic;
 		trabajos.add(aux);
 		dividirTrabajo(aux);
 		return aux;
@@ -111,6 +110,10 @@ public class ControladorImpl extends ControladorPOA{
 		aux.id = id;
 		aux.tipo = RED;
 		aux.progress = 0;
+		if(dic!=0)
+			aux.max_progress=MAX_PROGRESS_dic;
+		else
+			aux.max_progress=MAX_PROGRESS;
 		aux.puerto = puerto;
 		aux.tam_maximo = tam_maximo;
 		aux.usuario = usuario;
@@ -129,6 +132,7 @@ public class ControladorImpl extends ControladorPOA{
 		aux.id = id;
 		aux.tipo = RSA;
 		aux.progress = 0;
+		aux.max_progress=MAX_PROGRESS_rsa;
 		aux.resultado="";
 		aux.cadena = cadena1;
 		aux.usuario = cadena2;
@@ -149,16 +153,16 @@ public class ControladorImpl extends ControladorPOA{
 
 	@Override
 	public void borrarTrabajo(int id) {
-		 Iterator<Division> it = queue.iterator();
-		    while(it.hasNext())
-		    {
-		        Division em = it.next();
-		        if(em.trabajo.id==id)
-		        {
-		            queue.remove(em);
-		        }   
-		    }
-		    trabajos.get(id).borrado=true;
+		Iterator<Division> it = queue.iterator();
+	    while(it.hasNext())
+	    {
+	        Division em = it.next();
+	        if(em.trabajo.id==id)
+	        {
+	            queue.remove(em);
+	        }   
+	    }
+	    trabajos.get(id).borrado=true;
 	}
 
 	@Override
