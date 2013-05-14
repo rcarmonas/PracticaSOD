@@ -50,6 +50,11 @@ public class ControladorImpl extends ControladorPOA{
 			else if(trabajos.get(id).progress<maxProgress)//Aumento el progreso...
 				trabajos.get(id).progress++;
 		}catch(Exception e){}
+		if(!clave.equals(""))
+		{
+			System.out.print("Fin trabajo " + id + " ");
+			StrManager.imprimirHora();
+		}
 	}
 
 	/**
@@ -124,6 +129,8 @@ public class ControladorImpl extends ControladorPOA{
 			aux.max_progress=MAX_PROGRESS_dic;
 		trabajos.add(aux);
 		dividirTrabajo(aux);
+		System.out.println("Trababjo " + id + " incluído: ");
+		StrManager.imprimirHora();
 		return aux;
 	}
 
@@ -143,6 +150,8 @@ public class ControladorImpl extends ControladorPOA{
 			aux.max_progress=MAX_PROGRESS_dic;
 		trabajos.add(aux);
 		dividirTrabajo(aux);
+		System.out.println("Trababjo " + id + " incluído: ");
+		StrManager.imprimirHora();
 		return aux;
 	}
 
@@ -175,6 +184,8 @@ public class ControladorImpl extends ControladorPOA{
 		aux.diccionario = dic;
 		trabajos.add(aux);
 		dividirTrabajo(aux);
+		System.out.println("Trabajo " + id + " incluído: ");
+		StrManager.imprimirHora();
 		return aux;
 	}
 	/**
@@ -197,6 +208,8 @@ public class ControladorImpl extends ControladorPOA{
 		aux.usuario = cadena2;
 		trabajos.add(aux);
 		dividirTrabajo(aux);
+		System.out.println("Trabajo " + id + " incluído: ");
+		StrManager.imprimirHora();
 		return aux;
 	}
 	

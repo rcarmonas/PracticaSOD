@@ -2,6 +2,8 @@ package clases;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Clase que contiene varias funciones de manejo de cadenas. En concreto para
@@ -67,5 +69,19 @@ public class StrManager {
            return null;
         }
     }
+	
+	/**
+	 * Imprime la hora actual del sistema
+	 */
+	public static void imprimirHora()
+	{
+		Calendar calendario = new GregorianCalendar();
+		int hora, minutos, segundos;
+		calendario = new GregorianCalendar();
+		hora =calendario.get(Calendar.HOUR_OF_DAY);
+		minutos = calendario.get(Calendar.MINUTE);
+		segundos = calendario.get(Calendar.SECOND);
+		System.out.println(hora + ":" + minutos + ":" + segundos);
+	}
 	
 }
