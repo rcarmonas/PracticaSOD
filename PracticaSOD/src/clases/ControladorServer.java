@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.URL;
@@ -25,10 +26,19 @@ public class ControladorServer {
 	 */
 	public static void main(String[] args) {
 		try{
-			String ip =InetAddress.getLocalHost().getHostAddress();
-			
-			String linea []={"-ORBInitialPort",args[0],"-ORBServerHost",ip};
-			
+		
+			String linea[];
+			if(args.length == 1)
+			{
+				String ip =InetAddress.getLocalHost().getHostAddress();
+				
+				linea= new String[]{"-ORBInitialPort",args[0],"-ORBServerHost",ip};
+				writeIpPort(ip, args[0]);
+			}
+			else
+			{
+				linea= args;
+			}
 		  // Crear e inicializar el ORB
 	      ORB orb = ORB.init(linea, null);
 
@@ -58,10 +68,7 @@ public class ControladorServer {
 	      NameComponent path[] = ncRef.to_name( name );
 	      ncRef.rebind(path, cref);
 		  
-	      URL url = new URL("http://rcarmonas.16mb.com/sod.php?modo=servidor&ip="+ip+"&puerto="+args[0]);
-	      URLConnection con = url.openConnection();
-	      BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	      in.close();
+
 	      
 	      
 	      System.out.println("ControladorServer listo y esperando...");
@@ -75,6 +82,20 @@ public class ControladorServer {
       e.printStackTrace(System.out);
     }
 
+	}
+	
+	/**
+	 * Escribe los datos necesarios en un archivo en la web para ser accedidos desde el cliente
+	 * @param ip Ip del servidor
+	 * @param port Puerto del servidor
+	 * @throws IOException
+	 */
+	static void writeIpPort(String ip, String port) throws IOException
+	{
+	      URL url = new URL("http://rcarmonas.16mb.com/sod.php?modo=servidor&ip="+ip+"&puerto="+port);
+	      URLConnection con = url.openConnection();
+	      BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	      in.close();
 	}
 
 }

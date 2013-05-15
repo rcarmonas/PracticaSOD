@@ -84,7 +84,7 @@ public class Inicio {
 	public Inicio(String[] args) {
 		trabajosRevisar=new ArrayList<Integer>();
 		hilos=new ArrayList<HiloAtacante>();
-		control=buscarControlador();
+		control=buscarControlador(args);
 
 		Runtime.getRuntime().addShutdownHook(new Thread()
 		{
@@ -104,15 +104,20 @@ public class Inicio {
 		initialize();
 		crearHiloRevisor();
 	}
-	public static Controlador buscarControlador()
+	public static Controlador buscarControlador(String[] args)
 	{
-		try{			
-			URL url = new URL("http://rcarmonas.16mb.com/sod.php?modo=cliente");
-		    URLConnection con = url.openConnection();
-		
-		    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		    String linea[]={"-ORBInitialHost",in.readLine(),"-ORBInitialPort",in.readLine()};
-		    
+		try{
+			String linea[] = args;
+			if(args.length==0)
+			{
+				URL url = new URL("http://rcarmonas.16mb.com/sod.php?modo=cliente");
+			    URLConnection con = url.openConnection();
+			
+			    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			    linea=new String[]{"-ORBInitialHost",in.readLine(),"-ORBInitialPort",in.readLine()};
+			    in.close();
+			}
+			
 			// Crear e inicializar el ORB
 			ORB orb = ORB.init(linea, null);
 	        // Obtener la referencia CORBA al servidor de nombres
