@@ -13,8 +13,8 @@ import java.util.GregorianCalendar;
  */
 public class StrManager {
 	
-	static int INICIO = 32;
-	static int FIN = 126;
+	public static int INICIO = 32;
+	public static int FIN = 126;
 	private static final char[] CONSTS_HEX = { '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' };
 	
 	
