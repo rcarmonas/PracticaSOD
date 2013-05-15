@@ -30,7 +30,7 @@ public class MD5 {
 	{
 		probarCombinacion(str.toString());
 		
-		if(str.length()<=MAX)
+		if(str.length()<MAX)
 			for(char j=(char)StrManager.INICIO;j<=StrManager.FIN && !this.encontrado; j++)
 			{
 				str.append(j);
