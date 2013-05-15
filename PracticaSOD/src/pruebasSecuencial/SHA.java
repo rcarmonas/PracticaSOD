@@ -3,7 +3,11 @@ package pruebasSecuencial;
 import java.io.IOException;
 
 import clases.StrManager;
-
+/**
+ * Clase encargada de realizar una prueba secuencial de SHA1
+ * @author Rafael Carmona Sánchez
+ * @author José Manuel Herruzo Ruiz
+ */
 public class SHA {
 	static final int MAX=3;
 	boolean encontrado;

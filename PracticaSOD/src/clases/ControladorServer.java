@@ -12,11 +12,16 @@ import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
-
+/**
+ * Servidor que se encarga de mantener el controlador del sistema
+ * @author Rafael Carmona Sánchez
+ * @author José Manuel Herruzo Ruiz
+ */
 public class ControladorServer {
 
 	/**
-	 * @param args
+	 * Ejecuta el servidor
+	 * @param args Número de puerto donde se ejecutará
 	 */
 	public static void main(String[] args) {
 		try{
@@ -56,6 +61,8 @@ public class ControladorServer {
 	      URL url = new URL("http://rcarmonas.16mb.com/sod.php?modo=servidor&ip="+ip+"&puerto="+args[0]);
 	      URLConnection con = url.openConnection();
 	      BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	      in.close();
+	      
 	      
 	      System.out.println("ControladorServer listo y esperando...");
 

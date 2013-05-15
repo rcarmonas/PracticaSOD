@@ -4,7 +4,11 @@ import java.math.BigInteger;
 import clases.BigMath;
 import clases.StrManager;
 
-
+/**
+ * Clase encargada de realizar una prueba secuencial de RSA
+ * @author Rafael Carmona Sánchez
+ * @author José Manuel Herruzo Ruiz
+ */
 public class RSA {
 
 	/**

@@ -23,6 +23,10 @@ public class HiloAtacante extends Thread {
 	private boolean encontrado;//indica que se pare y coja un nuevo trabajo de la cola (utilizado cuando se borran trabajos o se encuentra la solucion)
 	private String resultado;
 	
+	/**
+	 * Constructor de la clase HiloAtacante
+	 * @param ctrl Controlador del que se obtienen los trabajos a realizar
+	 */
 	public HiloAtacante(Controlador ctrl)
 	{
 		activo = true;
@@ -73,6 +77,8 @@ public class HiloAtacante extends Thread {
 	{
 		this.encontrado=true;
 	}
+	
+	
 	/**
 	 * Prueba de forma recursiva todas las cadenas posibles hasta encontrar
 	 * un resultado o terminar
@@ -155,6 +161,8 @@ public class HiloAtacante extends Thread {
 			in.close();
 		}
 	}
+	
+	
 	/**
 	 * Prueba la combinación actual para averiguar si es la que buscamos
 	 * @param actual combinación a probar
