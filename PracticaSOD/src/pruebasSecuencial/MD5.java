@@ -19,7 +19,7 @@ public class MD5 {
 	public static void main(String[] args) {
 		StrManager.imprimirHora();
 		if(args.length==0)
-			args = new String[]{"02c425157ecd32f259548b33402ff6d3"};
+			args = new String[]{"3af3e0dd85b60de5fbc81594329d2c22"};
 		MD5 prueba=new MD5(args[0]);
 		StringBuffer cad = new StringBuffer();
 		//Añade la primera letra:
