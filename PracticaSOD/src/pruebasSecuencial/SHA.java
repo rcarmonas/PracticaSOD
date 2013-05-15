@@ -9,6 +9,7 @@ public class SHA {
 	boolean encontrado;
 	String hash;
 	/**
+	 * Encuentra la cadena de origen de un HASH SHA1 de forma secuencial mediante fuerza bruta.
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -26,6 +27,11 @@ public class SHA {
 	SHA(String h){
 		hash=h;
 	}
+	/**
+	 * Genera todas las cadenas hasta una longitud máxima
+	 * @param str Cadena inicial
+	 * @throws IOException
+	 */
 	private void probarCadenas(StringBuffer str) throws IOException
 	{
 		probarCombinacion(str.toString());
@@ -38,10 +44,13 @@ public class SHA {
 				str.deleteCharAt(str.length()-1);
 			}
 	}
+	/**
+	 * Prueba si la cadena pasada como parámetros es el origen del HASH a resolver
+	 * @param actual cadena a comprobar
+	 */
 	private void probarCombinacion(String actual)
 	{
 		String aux;
-		//En caso de tratarse de un trabajo MD5:
 		aux = StrManager.SHA(actual);
 		if(aux!=null)
 		if(aux.equals(this.hash))
