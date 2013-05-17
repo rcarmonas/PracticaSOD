@@ -10,17 +10,50 @@ package clases;
 
 public final class Trabajo implements org.omg.CORBA.portable.IDLEntity
 {
-  public boolean borrado = false;
-  public int id = (int)0;
-  public int tipo = (int)0;
-  public int diccionario = (int)0;
-  public String cadena = null;
-  public int puerto = (int)0;
-  public String usuario = null;
-  public int tam_maximo = (int)0;
-  public int progress = (int)0;
-  public int max_progress = (int)0;
-  public String resultado = null;
+  /**
+ * @uml.property  name="borrado"
+ */
+public boolean borrado = false;
+  /**
+ * @uml.property  name="id"
+ */
+public int id = (int)0;
+  /**
+ * @uml.property  name="tipo"
+ */
+public int tipo = (int)0;
+  /**
+ * @uml.property  name="diccionario"
+ */
+public int diccionario = (int)0;
+  /**
+ * @uml.property  name="cadena"
+ */
+public String cadena = null;
+  /**
+ * @uml.property  name="puerto"
+ */
+public int puerto = (int)0;
+  /**
+ * @uml.property  name="usuario"
+ */
+public String usuario = null;
+  /**
+ * @uml.property  name="tam_maximo"
+ */
+public int tam_maximo = (int)0;
+  /**
+ * @uml.property  name="progress"
+ */
+public int progress = (int)0;
+  /**
+ * @uml.property  name="max_progress"
+ */
+public int max_progress = (int)0;
+  /**
+ * @uml.property  name="resultado"
+ */
+public String resultado = null;
 
   public Trabajo ()
   {

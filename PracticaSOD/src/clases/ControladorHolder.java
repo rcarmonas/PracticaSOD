@@ -9,7 +9,11 @@ package clases;
 
 public final class ControladorHolder implements org.omg.CORBA.portable.Streamable
 {
-  public clases.Controlador value = null;
+  /**
+ * @uml.property  name="value"
+ * @uml.associationEnd  
+ */
+public clases.Controlador value = null;
 
   public ControladorHolder ()
   {

@@ -20,7 +20,15 @@ public class ControladorImpl extends ControladorPOA{
 	public static final int SHA = 1;
 	public static final int RED = 2;
 	public static final int RSA = 3;
+	/**
+	 * @uml.property  name="queue"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="clases.Division"
+	 */
 	public LinkedBlockingQueue<Division> queue;
+	/**
+	 * @uml.property  name="trabajos"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="clases.Trabajo"
+	 */
 	public ArrayList<Trabajo> trabajos;
 	
 	/**

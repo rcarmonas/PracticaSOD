@@ -45,21 +45,83 @@ import clases.Trabajo;
  * @author José Manuel Herruzo Ruiz
  */
 public class Inicio {
+	/**
+	 * @uml.property  name="ventana"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	public JFrame ventana;
+	/**
+	 * @uml.property  name="textField_2"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField textField_2;
+	/**
+	 * @uml.property  name="textField"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField textField;
+	/**
+	 * @uml.property  name="textField_1"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField textField_1;
+	/**
+	 * @uml.property  name="textField_3"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField textField_3;
+	/**
+	 * @uml.property  name="dtmModelo"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	public DefaultTableModel dtmModelo;
+	/**
+	 * @uml.property  name="jtTabla"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	public JTable jtTabla;
+	/**
+	 * @uml.property  name="textField_4"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField textField_4;
+	/**
+	 * @uml.property  name="panel"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JPanel panel;
+	/**
+	 * @uml.property  name="control"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Controlador control;
+	/**
+	 * @uml.property  name="hilos"
+	 */
 	private ArrayList<HiloAtacante> hilos;
+	/**
+	 * @uml.property  name="hiloRevisor"
+	 * @uml.associationEnd  multiplicity="(1 1)" inverse="inicio:clases.HiloRevisor"
+	 */
 	private HiloRevisor hiloRevisor;
+	/**
+	 * @uml.property  name="trabajosRevisar"
+	 */
 	private ArrayList<Integer> trabajosRevisar;
+	/**
+	 * @uml.property  name="textField_5"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField textField_5;
+	/**
+	 * @uml.property  name="textField_6"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField textField_6;
+	/**
+	 * @uml.property  name="textField_7"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private JTextField textField_7;
 
 	/**

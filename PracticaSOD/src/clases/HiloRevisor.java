@@ -15,9 +15,25 @@ import javax.swing.SwingWorker;
  */
 public class HiloRevisor extends SwingWorker<Void,Object[]> {
 
+	/**
+	 * @uml.property  name="trabajosPropios"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.lang.Integer"
+	 */
 	ArrayList<Integer> trabajosPropios;
+	/**
+	 * @uml.property  name="hilos"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="clases.HiloAtacante"
+	 */
 	ArrayList<HiloAtacante> hilos;
+	/**
+	 * @uml.property  name="controlador"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	Controlador controlador;
+	/**
+	 * @uml.property  name="inicio"
+	 * @uml.associationEnd  multiplicity="(1 1)" inverse="hiloRevisor:interfaz.Inicio"
+	 */
 	Inicio inicio;
 	
 	public HiloRevisor(Inicio i,ArrayList<HiloAtacante> h,ArrayList<Integer> t,Controlador c){

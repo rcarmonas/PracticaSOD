@@ -10,7 +10,11 @@ package clases.ControladorPackage;
 
 public final class trabajosListHolder implements org.omg.CORBA.portable.Streamable
 {
-  public clases.Trabajo value[] = null;
+  /**
+ * @uml.property  name="value"
+ * @uml.associationEnd  multiplicity="(0 -1)"
+ */
+public clases.Trabajo value[] = null;
 
   public trabajosListHolder ()
   {

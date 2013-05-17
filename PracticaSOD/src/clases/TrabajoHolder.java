@@ -9,7 +9,11 @@ package clases;
 
 public final class TrabajoHolder implements org.omg.CORBA.portable.Streamable
 {
-  public clases.Trabajo value = null;
+  /**
+ * @uml.property  name="value"
+ * @uml.associationEnd  
+ */
+public clases.Trabajo value = null;
 
   public TrabajoHolder ()
   {
