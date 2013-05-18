@@ -9,7 +9,7 @@ import clases.StrManager;
  * @author José Manuel Herruzo Ruiz
  */
 public class SHA {
-	static final int MAX=4;
+	static final int MAX=3;
 	boolean encontrado;
 	String hash;
 	/**
