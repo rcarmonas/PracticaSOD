@@ -10,13 +10,7 @@ import clases.StrManager;
  */
 public class SHA {
 	static final int MAX=4;
-	/**
-	 * @uml.property  name="encontrado"
-	 */
 	boolean encontrado;
-	/**
-	 * @uml.property  name="hash"
-	 */
 	String hash;
 	/**
 	 * Encuentra la cadena de origen de un HASH SHA1 de forma secuencial mediante fuerza bruta.
