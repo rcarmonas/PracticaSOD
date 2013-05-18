@@ -10,15 +10,8 @@ package clases;
 
 public final class Division implements org.omg.CORBA.portable.IDLEntity
 {
-  /**
- * @uml.property  name="trabajo"
- * @uml.associationEnd  
- */
-public clases.Trabajo trabajo = null;
-  /**
- * @uml.property  name="c"
- */
-public char c = (char)0;
+  public clases.Trabajo trabajo = null;
+  public char c = (char)0;
 
   /**
    * Constructor vacío

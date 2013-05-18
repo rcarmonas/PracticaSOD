@@ -10,13 +10,7 @@ import clases.StrManager;
  */
 public class MD5 {
 	static final int MAX=4;
-	/**
-	 * @uml.property  name="encontrado"
-	 */
 	boolean encontrado;
-	/**
-	 * @uml.property  name="hash"
-	 */
 	String hash;
 	/**
 	 * Realiza una prueba secuencial de descifrado de MD5 por fuerza bruta

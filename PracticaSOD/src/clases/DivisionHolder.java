@@ -9,11 +9,7 @@ package clases;
 
 public final class DivisionHolder implements org.omg.CORBA.portable.Streamable
 {
-  /**
- * @uml.property  name="value"
- * @uml.associationEnd  
- */
-public clases.Division value = null;
+  public clases.Division value = null;
 
   public DivisionHolder ()
   {

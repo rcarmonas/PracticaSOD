@@ -9,14 +9,7 @@ import javax.swing.JOptionPane;
  * @author José Manuel Herruzo Ruiz
  */
 public class HiloMensaje extends Thread {
-	/**
-	 * @uml.property  name="mensaje"
-	 */
 	private String mensaje;
-	/**
-	 * @uml.property  name="ventana"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	private JFrame ventana;
 	HiloMensaje(String m,JFrame v){
 		mensaje=m;
